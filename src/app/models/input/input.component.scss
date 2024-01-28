@@ -1,0 +1,21 @@
+.generate button {
+  text-decoration: none;
+  border: none;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  height: 33px;
+  background-size: 300%;
+  border-radius: 5px;
+}
+
+.templates__container--template {
+  width: 48%;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .4s ease;
+}
+
+.templates__container--template:hover {
+  border: 1px solid rgb(2 6 23);
+}

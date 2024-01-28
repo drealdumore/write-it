@@ -1,1 +1,86 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+  html {
+    font-family: "Proxima Nova", system-ui, sans-serif;
+  }
+}
+
+:root {
+  --fair: #fffc;
+  --white: #fff;
+  --black: #000;
+  --active-border: #b1d9ee;
+  --font: rgb(228, 244, 251, 1);
+}
+
+body {
+  background: #fffc;
+  transition: all .4s ease;
+  // background: url("/assets/background.svg") center center no-repeat;
+  // background-size: cover;
+}
+
+.background-blob.blue {
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    #0f577f 0deg,
+    #21a4dc 133.12deg,
+    #64a5e1 208.13deg,
+    #b9b3fe 360deg
+  );
+  transform: rotate(0) translateY(0);
+}
+
+.background-blob {
+  position: fixed;
+  width: 60%;
+  height: 100vh;
+  left: 20%;
+  top: 0;
+  z-index: -1;
+  transition: background 0.5s ease-in-out;
+  background: conic-gradient(
+      from 180deg at 50% 50%,
+      #7f0f37 0deg,
+      #dc2186 133.12deg,
+      #e16c64 208.13deg,
+      #fedbb3 360deg
+    )
+    no-repeat;
+  filter: blur(200px);
+  transform: rotate(180deg) translateY(40%);
+}
+
+.heading {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    rgba(32, 115, 151, 0.96) 200.83%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 60px;
+}
+
+.fade-in {
+  animation: fade-in;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
