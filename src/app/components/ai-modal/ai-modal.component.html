@@ -1,1 +1,87 @@
-<p>ai-modal works!</p>
+<div class="generate p-5 bg-white rounded-md">
+  <div class="wrapper">
+    <div class="flex items-center justify-between">
+      <div class="flex again hover:bg-gray-200 items-center font-semibold text-sm">
+        <ng-icon name="radixChevronLeft" strokeWidth="17px;"></ng-icon>
+        <h2>Generate again</h2>
+      </div>
+      <div class="close hover:bg-gray-200 text-medium" (click)="close()">
+        <ng-icon name="radixCross1" strokeWidth="17px;"></ng-icon>
+      </div>
+    </div>
+
+    <div class="content pt-2">
+      <div class="flex font-semibold pb-1 items-center">
+        <p class="text-xl">Generated Content</p>
+        <ng-icon name="radixRocket" strokeWidth="17px;"></ng-icon>
+      </div>
+      <div class="container">
+        <textarea
+          placeholder="Add description"
+          class="border-solid pt-1 w-full border border-slate-30 rounded-md pe-2 ps-2 h-20 resize-none"
+        ></textarea>
+        <div class="flex pt-2 justify-center items-center w-full">
+          <div class="img__container">
+            <img class="rounded-md" src="/assets/template.png" alt="preview" />
+          </div>
+        </div>
+        <p class="py-2 text-sm">
+          Tip: If the quote doesn't fit the page - copy the content, close the
+          modal and use the editor
+        </p>
+      </div>
+    </div>
+    <div class="flex justify-end items-center">
+      <button
+        class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
+      >
+        <ng-icon name="radixDownload" strokeWidth="17px;"></ng-icon>
+        <span class="text-sm font-normal">Download</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 
+<div class="generate p-5 bg-white rounded-md">
+  <div class="wrapper">
+    <div class="flex items-center justify-between">
+      <h2 class="font-semibold text-xl">Generate with AI</h2>
+      <div class="close hover:bg-gray-200 text-lg" (click)="close()">
+        <ng-icon name="radixCross1" strokeWidth="17px;"></ng-icon>
+      </div>
+    </div>
+
+    <div class="content pt-4">
+      <p>Can't think of a quote? We'll do the magic for you.</p>
+      <div class="container">
+        <form class="pt-3">
+          <label>
+            <input type="radio" name="radio" checked="" />
+            <span>Quote/Saying</span>
+          </label>
+          <label>
+            <input type="radio" name="radio" />
+            <span>CSS</span>
+          </label>
+        </form>
+        <p class="py-2 text-sm">
+          Give some additional context on what you want out of the quote/story.
+          <Br /> What is the scenario? Who is the quote/story for?
+        </p>
+        <textarea
+          placeholder="Add description"
+          class="border-solid pt-1 w-full border border-slate-30 rounded-md pe-2 ps-2 h-20 resize-none"
+        ></textarea>
+      </div>
+    </div>
+    <div class="flex justify-end items-center">
+      <button
+        class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
+      >
+        <ng-icon name="radixMagicWand" strokeWidth="17px;"></ng-icon>
+        <span class="text-sm font-normal">Generate</span>
+      </button>
+    </div>
+  </div>
+</div> -->

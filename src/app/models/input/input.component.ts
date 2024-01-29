@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { radixMagicWand, radixGear } from '@ng-icons/radix-icons';
 
@@ -10,4 +10,10 @@ import { radixMagicWand, radixGear } from '@ng-icons/radix-icons';
   styleUrl: './input.component.scss',
   viewProviders: [provideIcons({ radixMagicWand, radixGear })],
 })
-export class InputComponent {}
+export class InputComponent {
+  @Output() aiClicked = new EventEmitter();
+
+  aiBtnClicked(): void {
+    this.aiClicked.emit();
+  }
+}

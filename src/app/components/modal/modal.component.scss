@@ -1,0 +1,23 @@
+.container {
+  padding: 0;
+  position: relative;
+  // backdrop-filter: blur(9px);
+  display: flex;
+  -moz-box-align: center;
+  align-items: center;
+  -moz-box-pack: center;
+  justify-content: center;
+  // background-color: rgb(0 0 0 / 31%);
+  // background-color: rgba(0, 0, 0, 0.48);
+  // background-color: rgb(255 255 255 / 65%);
+  background: #0003;
+  backdrop-filter: blur(4px);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  z-index: 20;
+  cursor: pointer;
+}

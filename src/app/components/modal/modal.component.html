@@ -1,1 +1,5 @@
-<p>modal works!</p>
+<div class="container w-full" (click)="close()">
+  <div (click)="$event.stopPropagation()">
+    <ng-content></ng-content>
+  </div>
+</div>

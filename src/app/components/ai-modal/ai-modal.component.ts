@@ -1,12 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { radixMagicWand, radixCross1, radixChevronLeft, radixRocket, radixDownload } from '@ng-icons/radix-icons';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
-  selector: 'app-ai-modal',
+  selector: 'ai-modal',
   standalone: true,
-  imports: [],
+  imports: [NgIconComponent],
   templateUrl: './ai-modal.component.html',
-  styleUrl: './ai-modal.component.scss'
+  styleUrl: './ai-modal.component.scss',
+  providers: [ModalService],
+  viewProviders: [provideIcons({ radixMagicWand, radixCross1, radixChevronLeft, radixRocket, radixDownload })],
 })
 export class AiModalComponent {
 
+private modalService = inject(ModalService)
+
+close() {
+  this.modalService.closeModal()
+}
 }
