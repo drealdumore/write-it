@@ -35,4 +35,8 @@ export class MainComponent {
     this.modalService.openModal();
     console.log('calling ai modal');
   }
+
+  download() {
+    console.log('download button clicked');
+  }
 }

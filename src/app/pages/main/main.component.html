@@ -2,7 +2,7 @@
 
 <main class="flex gap-3 min-h-screen">
   <app-input (aiClicked)="aiModalActive()" class="flex-1 border-r"></app-input>
-  <app-preview class="flex-1"></app-preview>
+  <app-preview class="flex-1" (downloadEmitter)="download()"></app-preview>
 </main>
 
 <modal *ngIf="modalSignal()">

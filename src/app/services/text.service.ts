@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class TextService {
-  private textSource = new BehaviorSubject<string>('Quillify!');
+  private textSource = new BehaviorSubject<string>('this world is so quick to judge & too late to understand');
   currentText = this.textSource.asObservable();
 
   changeText(newText: string) {
