@@ -21,6 +21,14 @@ bootstrapApplication(AppComponent, {
               (c) => c.MainComponent
             ),
         },
+        {
+          path: 'canvas',
+          title: 'App',
+          loadComponent: () =>
+            import('./app/models/canvas/canvas.component').then(
+              (c) => c.CanvasComponent
+            ),
+        },
 
         {
           path: '',

@@ -1,0 +1,14 @@
+<app-ext></app-ext>
+
+<div class="font-list">
+  <div *ngFor="let font of fonts" (click)="changeFont(font)">{{ font }}</div>
+</div>
+
+<canvas
+  #canvasEl
+  width="400"
+  height="200"
+  style="border: 1px solid var(--black); margin: 0 auto"
+></canvas>
+
+<button (click)="nextFont()">Next Font</button>

@@ -1,1 +1,104 @@
-<p>result-modal works!</p>
+<div class="generate p-5 bg-white rounded-md">
+  <div class="wrapper">
+    <div class="flex items-center justify-between">
+      <div
+        class="flex again hover:bg-gray-200 items-center font-semibold text-sm"
+      >
+        <ng-icon name="radixChevronLeft" strokeWidth="17px;"></ng-icon>
+        <h2>Generate again</h2>
+      </div>
+      <div class="close hover:bg-gray-200 text-medium" (click)="close()">
+        <ng-icon name="radixCross1" strokeWidth="17px;"></ng-icon>
+      </div>
+    </div>
+
+    <div class="content pt-2">
+      <div class="flex items-center justify-between px-1 pd-1">
+        <div class="flex font-semibold pb-1 items-center">
+          <p class="text-xl">Generated Content</p>
+          <ng-icon name="radixRocket" strokeWidth="17px;"></ng-icon>
+        </div>
+        <button
+          [ngStyle]="{ display: description ? 'block' : 'none' }"
+          class="copy"
+          #content
+          (click)="copyToClipboard()"
+        >
+          <span
+            class="tooltip"
+            data-text-initial="Copy to clipboard"
+            data-text-end="Copied!"
+          ></span>
+          <span>
+            <svg
+              class="clipboard"
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              width="20"
+              height="20"
+              x="0"
+              y="0"
+              viewBox="0 0 6.35 6.35"
+              style="enable-background: new 0 0 512 512"
+              xml:space="preserve"
+            >
+              <g>
+                <path
+                  d="M2.43.265c-.3 0-.548.236-.573.53h-.328a.74.74 0 0 0-.735.734v3.822a.74.74 0 0 0 .735.734H4.82a.74.74 0 0 0 .735-.734V1.529a.74.74 0 0 0-.735-.735h-.328a.58.58 0 0 0-.573-.53zm0 .529h1.49c.032 0 .049.017.049.049v.431c0 .032-.017.049-.049.049H2.43c-.032 0-.05-.017-.05-.049V.843c0-.032.018-.05.05-.05zm-.901.53h.328c.026.292.274.528.573.528h1.49a.58.58 0 0 0 .573-.529h.328a.2.2 0 0 1 .206.206v3.822a.2.2 0 0 1-.206.205H1.53a.2.2 0 0 1-.206-.205V1.529a.2.2 0 0 1 .206-.206z"
+                  fill="currentColor"
+                ></path>
+              </g>
+            </svg>
+            <svg
+              class="checkmark"
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              width="18"
+              height="18"
+              x="0"
+              y="0"
+              viewBox="0 0 24 24"
+              style="enable-background: new 0 0 512 512"
+              xml:space="preserve"
+            >
+              <g>
+                <path
+                  d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                  fill="currentColor"
+                  data-original="#000000"
+                ></path>
+              </g>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div class="container">
+        <textarea
+          placeholder="Add description"
+          class="border-solid pt-1 w-full border border-slate-30 rounded-md pe-2 ps-2 h-20 resize-none"
+          [(ngModel)]="description"
+          name="description"
+        ></textarea>
+        <div class="flex pt-2 justify-center items-center w-full">
+          <div class="img__container">
+            <img class="rounded-md" src="/assets/template.png" alt="preview" />
+          </div>
+        </div>
+        <p class="py-2 text-xs">
+          Tip: If the quote doesn't fit the page - copy the content, close the
+          modal and use the editor.
+        </p>
+      </div>
+    </div>
+    <div class="flex justify-end items-center">
+      <button
+        class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
+      >
+        <ng-icon name="radixDownload" strokeWidth="17px;"></ng-icon>
+        <span class="text-sm font-normal">Download</span>
+      </button>
+    </div>
+  </div>
+</div>

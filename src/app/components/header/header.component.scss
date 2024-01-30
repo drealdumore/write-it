@@ -4,12 +4,12 @@
   align-items: center;
   padding: 0 3rem;
   z-index: 10;
-
+  position: relative;
   height: 3rem;
   margin: 0 auto;
   width: 100%;
 }
 
 a {
-  color: #000;
+  color: var(--black);
 }

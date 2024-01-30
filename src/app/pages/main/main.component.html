@@ -1,3 +1,5 @@
+<img class="absolute inset-0 opacity-50" src="/assets/background.svg" alt="background" />
+
 <main class="flex gap-3 min-h-screen">
   <app-input (aiClicked)="aiModalActive()" class="flex-1 border-r"></app-input>
   <app-preview class="flex-1"></app-preview>
@@ -6,3 +8,7 @@
 <modal *ngIf="modalSignal()">
   <ai-modal></ai-modal>
 </modal>
+
+<!-- <modal *ngIf="modalSignal()">
+  <result-modal></result-modal>
+</modal> -->

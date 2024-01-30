@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss',
-  providers: [ModalService],
 })
 export class ModalComponent {
   private modalService = inject(ModalService);
