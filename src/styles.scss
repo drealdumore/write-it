@@ -38,10 +38,20 @@
   font-display: swap;
 }
 
+
 @font-face {
-  font-family: "hwBlaire";
-  src: url("./assets/fonts/hwSantaClaus-Regular.woff2") format("woff2"),
-    url("./assets/fonts/hwSantaClaus-Regular.woff") format("woff");
+  font-family: "hwDavid";
+  src: url("./assets/fonts/hwDavid-Regular.woff2") format("woff2"),
+    url("./assets/fonts/hwDavid-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwKate";
+  src: url("./assets/fonts/hwKate-Regular.woff2") format("woff2"),
+    url("./assets/fonts/hwKate-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;

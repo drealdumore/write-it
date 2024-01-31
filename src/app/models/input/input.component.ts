@@ -5,6 +5,7 @@ import { TextService } from '../../services/text.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { CommunicationService } from '../../services/communication.service';
 
 interface FontImageInterface {
   src: string;
@@ -28,6 +29,14 @@ const fontImage: FontImageInterface[] = [
     src: '/assets/fnt/chaseFont.jpg',
     alt: 'chaseFont',
   },
+  {
+    src: '/assets/fnt/davidFont.jpg',
+    alt: 'davidFont',
+  },
+  {
+    src: '/assets/fnt/kateFont.jpg',
+    alt: 'kateFont',
+  },
 ];
 
 @Component({
@@ -40,12 +49,18 @@ const fontImage: FontImageInterface[] = [
 })
 export class InputComponent implements OnInit {
   @Output() aiClicked = new EventEmitter();
-  @Output() fontClicked = new EventEmitter();
+
+  selectedFont: number = 0;
+  inputText: string = '';
+  selectedColor: string = '';
+  selectedBackgroundColor: string = '';
 
   fonts: FontImageInterface[] = fontImage;
   input1!: FormGroup;
+  input2!: FormGroup;
 
   private textService = inject(TextService);
+  private communicationService = inject(CommunicationService);
   private fb = inject(FormBuilder);
 
   ngOnInit(): void {
@@ -53,12 +68,25 @@ export class InputComponent implements OnInit {
       input: ['this world is so quick to judge & too late to understand'],
     });
 
-    const control = this.input1.get('input');
+    this.input2 = this.fb.group({
+      input: ['- saint'],
+    });
 
-    if (control) {
-      control.valueChanges.pipe(debounceTime(500)).subscribe(() => {
+    const control1 = this.input1.get('input');
+    const control2 = this.input2.get('input');
+
+    if (control1) {
+      control1.valueChanges.pipe(debounceTime(500)).subscribe(() => {
         const currentText: string = this.input1.value.input;
         this.textService.changeText(currentText);
+        console.log(currentText);
+      });
+    }
+    
+    if (control2) {
+      control2.valueChanges.pipe(debounceTime(500)).subscribe(() => {
+        const currentText: string = this.input2.value.input;
+        this.textService.changeText2(currentText);
         console.log(currentText);
       });
     }
@@ -68,9 +96,23 @@ export class InputComponent implements OnInit {
     this.aiClicked.emit();
   }
 
-  fontSelected(): void {
-    this.fontClicked.emit();
-    console.log('🙌' + ' font clicked');
+  fontSelected(index: number): void {
+    // Check if the index is valid
+    if (index >= 0 && index < this.fonts.length) {
+      // Set the selectedFont based on the index
+      this.selectedFont = index;
+      this.communicationService.sendMessage(this.selectedFont);
+    }
   }
 
+  // sendMessageToCanvas() {
+  //   const message = {
+  //     font: this.selectedFont,
+  //     input: this.inputText,
+  //     color: this.selectedColor,
+  //     backgroundColor: this.selectedBackgroundColor,
+  //   };
+
+  //   this.communicationService.sendMessage(message);
+  // }
 }

@@ -1,17 +1,31 @@
 <div class="wrapper pt-6">
   <div class="preview flex justify-between items-center">
-    <h2 class="text-lg font-bold">Preview</h2>
+    <h2 class="text-lg font-bold" (click)="nextFont()">Preview</h2>
     <button
-      (click)="download()"
+      (click)="downloadCanvas()"
       class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
     >
       <ng-icon name="radixDownload" strokeWidth="17px;"></ng-icon>
       <span class="text-sm font-normal">Download</span>
     </button>
   </div>
+
   <div class="container pt-5">
     <div class="img__container flex justify-center items-center">
-      <app-canvas class="rounded-md"></app-canvas>
+      <canvas
+        #canvasEl
+        width="400"
+        height="200"
+        class="p-4"
+        style="
+          background-color: var(--white);
+          margin: 0 auto;
+          border: 1px solid rgb(203 213 225);
+          border-radius: 5px;
+        "
+      ></canvas>
+
+      <!-- <app-canvas class="rounded-md"></app-canvas> -->
       <!-- <img class="rounded-md" src="/assets/template.png" alt="preview" /> -->
     </div>
   </div>

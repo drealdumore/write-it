@@ -21,25 +21,27 @@
         ></textarea>
       </form>
       <button
-        class="flex items-center justify-center pl-2 text-xs gap-1 pt-2 font-medium text-red-900"
+        class="flex items-center justify-center pl-2 text-xs gap-1 pt-2 font-medium text-red-900 hover:bg-slate-200 hover:text-black setting"
       >
-        <span> show advanced settings</span>
+        <span> Show Advanced Settings</span>
         <ng-icon name="radixGear" strokeWidth="17px;"></ng-icon>
       </button>
     </div>
     <div
       class="input bg-white border-solid border border-slate-30 rounded-md p-4"
     >
-      <form class="flex-col flex">
+      <form class="flex-col flex" [formGroup]="input2">
         <label class="font-semibold pb-2">Line 2:</label>
         <textarea
+          formControlName="input"
           class="border-solid border border-slate-30 rounded-md pe-2 ps-2 h-20 resize-none"
-        >- saint</textarea>
+        ></textarea
+        >
       </form>
       <button
-        class="flex items-center justify-center pl-2 text-xs gap-1 pt-2 font-medium text-red-900"
+        class="flex items-center justify-center pl-2 text-xs gap-1 pt-2 font-medium text-red-900 hover:bg-slate-200 hover:text-black setting"
       >
-        <span> show advanced settings</span>
+        <span> Show Advanced Settings</span>
         <ng-icon name="radixGear" strokeWidth="17px;"></ng-icon>
       </button>
     </div>
@@ -48,10 +50,10 @@
   <div class="templates pt-6">
     <h2 class="font-semibold text-lg pb-1">Select a Font:</h2>
     <div class="templates__container flex flex-wrap gap-4 justify-center">
-      @for(font of fonts; track font) {
+      @for(font of fonts; track font; let i = $index) {
       <div
         class="templates__container--template rounded-lg flex"
-        (click)="fontSelected()"
+        (click)="fontSelected(i)"
       >
         <img [src]="font.src" [alt]="font.alt" class="rounded-lg" />
       </div>

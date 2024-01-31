@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TextService } from '../../services/text.service';
+import { TextService } from '../../../services/text.service';
 
 @Component({
   selector: 'app-ext',

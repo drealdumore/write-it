@@ -1,8 +1,12 @@
-<img class="absolute inset-0 opacity-50" src="/assets/background.svg" alt="background" />
+<img
+  class="absolute inset-0 opacity-50"
+  src="/assets/background.svg"
+  alt="background"
+/>
 
 <main class="flex gap-3 min-h-screen">
   <app-input (aiClicked)="aiModalActive()" class="flex-1 border-r"></app-input>
-  <app-preview class="flex-1" (downloadEmitter)="download()"></app-preview>
+  <app-preview class="flex-1"></app-preview>
 </main>
 
 <modal *ngIf="modalSignal()">
