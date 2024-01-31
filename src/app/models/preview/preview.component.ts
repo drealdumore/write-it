@@ -25,6 +25,7 @@ export class PreviewComponent implements OnDestroy {
   fonts = ['hwAnita', 'hwBernie', 'hwBlaire', 'hwChase', 'hwDavid', 'hwKate'];
   text1: string = '';
   text2: string = '';
+imgLink: string = '';
 
   color: string = '#3540c0';
 
@@ -163,6 +164,7 @@ export class PreviewComponent implements OnDestroy {
     const dataUrl = canvas.toDataURL(); // Get the data URL of the canvas
     const link = document.createElement('a');
     link.href = dataUrl;
+    this.imgLink = dataUrl;
     link.download = 'quillify-letterify.jpg'; // Set the desired file name
     document.body.appendChild(link);
     link.click();

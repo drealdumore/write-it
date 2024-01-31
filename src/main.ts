@@ -14,6 +14,14 @@ bootstrapApplication(AppComponent, {
     provideRouter(
       [
         {
+          path: '',
+          title: 'Quillify',
+          loadComponent: () =>
+            import('./app/pages/home/home.component').then(
+              (c) => c.HomeComponent
+            ),
+        },
+        {
           path: 'app',
           title: 'App',
           loadComponent: () =>
@@ -23,7 +31,7 @@ bootstrapApplication(AppComponent, {
         },
         {
           path: 'canvas',
-          title: 'App',
+          title: 'Canvas',
           loadComponent: () =>
             import('./app/models/canvas/canvas.component').then(
               (c) => c.CanvasComponent

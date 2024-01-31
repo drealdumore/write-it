@@ -1,5 +1,10 @@
 <nav>
   <div class="navbar border-b">
     <a href="/" class="text-lg font-bold">Quillify</a>
+    @if(showButton) {
+      <button class="bg-black text-slate-200 px-2 py-1 rounded-md" routerLink="/app">Use the app</button>
+    }
+    <!-- <button *ngIf="showButton" class="bg-black text-slate-200 px-2 py-1 rounded-md" routerLink="/app">Use the app</button> -->
+
   </div>
 </nav>

@@ -21,6 +21,7 @@
     "@ng-icons/core": "^26.3.0",
     "@ng-icons/radix-icons": "^26.3.0",
     "ngx-clipboard": "^16.0.0",
+    "ngx-colors": "^3.5.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

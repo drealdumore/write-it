@@ -17,7 +17,7 @@
           </label>
           <label>
             <input type="radio" name="radio" />
-            <span class="border">CSS</span>
+            <span class="border">Short Letter</span>
           </label>
         </form>
         <p class="py-2 text-sm">
@@ -28,7 +28,7 @@
         <form
           class="pb-2"
           [formGroup]="descriptionGroup"
-          (ngSubmit)="generateWithAi()"
+          (ngSubmit)="sendMessage()"
         >
           <textarea
             formControlName="input"
@@ -37,6 +37,7 @@
           ></textarea>
           <div class="flex justify-end items-center">
             <button
+              (click)="sendMessage()"
               class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
             >
               <ng-icon name="radixMagicWand" strokeWidth="17px;"></ng-icon>
@@ -44,6 +45,10 @@
             </button>
           </div>
         </form>
+
+        <div *ngFor="let message of chatHistory">
+          {{ message }}
+        </div>
       </div>
     </div>
   </div>
