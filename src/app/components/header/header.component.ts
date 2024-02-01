@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -9,16 +9,11 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   private router = inject(Router);
-  showButton: boolean = true;
 
-  ngOnInit(): void {
-    console.log('initialize');
-
-    if (this.router.url === '/app') {
-      this.showButton = false;
-      console.log('button no suppose show');
-    }
+  isAppPage(): boolean {
+    const currentUrl = this.router.url;
+    return currentUrl === '/app';
   }
 }

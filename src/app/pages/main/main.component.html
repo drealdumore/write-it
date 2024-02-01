@@ -5,12 +5,12 @@
 />
 
 <main class="flex gap-3 min-h-screen">
-  <app-input (aiClicked)="aiModalActive()" class="flex-1 border-r"></app-input>
-  <app-preview class="flex-1"></app-preview>
+  <app-input (aiClicked)="aiModalActive()" class="flex-1 border-r" />
+  <preview class="flex-1" />
 </main>
 
 <modal *ngIf="modalSignal()">
-  <ai-modal></ai-modal>
+  <ai-modal />
 </modal>
 
 <!-- <modal *ngIf="modalSignal()">

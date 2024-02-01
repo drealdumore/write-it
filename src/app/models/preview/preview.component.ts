@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { CommunicationService } from '../../services/communication.service';
 
 @Component({
-  selector: 'app-preview',
+  selector: 'preview',
   standalone: true,
   imports: [NgIconComponent, CanvasComponent],
   templateUrl: './preview.component.html',
@@ -20,12 +20,19 @@ export class PreviewComponent implements OnDestroy {
 
   private ctx!: CanvasRenderingContext2D;
   private currentFontIndex: number = 2;
+  private messageFromInput: any;
   private subscription: Subscription;
 
   fonts = ['hwAnita', 'hwBernie', 'hwBlaire', 'hwChase', 'hwDavid', 'hwKate'];
   text1: string = '';
   text2: string = '';
-imgLink: string = '';
+  imgLink: string = '';
+
+  fontSize1: number = 0;
+  fontColor1: any;
+  fontSize2: number = 0;
+  fontColor2: any;
+  selectedFont: number = 0;
 
   color: string = '#3540c0';
 
@@ -45,7 +52,6 @@ imgLink: string = '';
   loadFonts() {
     const fontPromises = this.fonts.map((font) => {
       const fontFace = `url(./assets/fonts/${font}.woff2) format('woff2'), url(./assets/fonts/${font}.woff) format('woff')`;
-      // const fontFace = new FontFace(font, `url(./assets/fonts/${font}.woff2) format('woff2'), url(./assets/fonts/${font}.woff) format('woff')`);
       document.fonts.load(fontFace);
       return fontFace;
     });
@@ -54,8 +60,16 @@ imgLink: string = '';
   }
 
   receiveMessageFromInput(message: any) {
-    console.log('Received message from input:', message);
-    this.currentFontIndex = message;
+    this.messageFromInput = message;
+    console.log(this.messageFromInput);
+
+    this.fontSize1 = this.messageFromInput.fontSize1;
+    this.fontColor1 = this.messageFromInput.fontColor1;
+    this.fontSize2 = this.messageFromInput.fontSize2;
+    this.fontColor2 = this.messageFromInput.fontColor2;
+
+    this.currentFontIndex = this.messageFromInput.selectedFont;
+    // this.selectedFont = this.messageFromInput.selectedFont
 
     this.changeFontWithCurrentFont(this.text1);
     this.changeFontWithCurrentFont(this.text2);
@@ -65,7 +79,7 @@ imgLink: string = '';
     this.loadFonts().then(() => {
       // Add event listener to check when fonts are loaded
       document.fonts.addEventListener('loadingdone', () => {
-        this.changeFont(this.fonts[this.currentFontIndex]); 
+        this.changeFont(this.fonts[this.currentFontIndex]);
       });
     });
 
@@ -98,7 +112,7 @@ imgLink: string = '';
     // Enable image smoothing
     this.ctx.imageSmoothingEnabled = true;
 
-    this.ctx.font = `30px ${this.fonts[this.currentFontIndex]}`;
+    this.ctx.font = `${this.fontSize1}px ${this.fonts[this.currentFontIndex]}`;
     const canvasWidth = this.canvas.nativeElement.width;
     let canvasHeight = this.canvas.nativeElement.height;
     const lineHeight = 22;
@@ -133,7 +147,7 @@ imgLink: string = '';
       }
 
       // Draw the word
-      this.ctx.fillStyle = this.color;
+      this.ctx.fillStyle = this.fontColor1;
       this.ctx.fillText(word, x, y);
 
       // Update the x position for the next word
@@ -149,7 +163,8 @@ imgLink: string = '';
     const additionalTextY = canvasHeight - lineHeight;
 
     // Draw the additional text from the second observable close to the bottom and aligned to the right
-    this.ctx.fillStyle = this.color;
+    this.ctx.fillStyle = this.fontColor2;
+    this.ctx.font = `${this.fontSize2}px ${this.fonts[this.currentFontIndex]}`;
     this.ctx.fillText(additionalText, additionalTextX, additionalTextY);
   }
 

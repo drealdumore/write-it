@@ -6,10 +6,11 @@ import {
 } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(BrowserModule),
+    importProvidersFrom(BrowserModule, BrowserAnimationsModule),
     provideHttpClient(withInterceptorsFromDi()),
     provideRouter(
       [
