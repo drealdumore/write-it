@@ -1,3 +1,11 @@
+.wrapper {
+  // max-height: calc(-88px + 100vh);
+  // overflow-y: auto;
+
+  max-height: calc(-48px + 100vh);
+  overflow-y: auto;
+}
+
 .generate button {
   text-decoration: none;
   border: none;
@@ -16,6 +24,7 @@
   transition: all 0.4s ease;
 }
 
+.active__template,
 .templates__container--template:hover {
   border: 1px solid rgb(2 6 23);
 }

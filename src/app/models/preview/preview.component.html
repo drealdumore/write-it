@@ -11,24 +11,19 @@
   </div>
 
   <div class="container pt-5">
-    <div class="img__container flex justify-center items-center">
+    <div class="img__container grid">
+      <img
+        [src]="canvasDataURL"
+        class="rounded-md border-solid border border-slate-30 my-0 mx-auto"
+        alt="Generated Image"
+      />
+
       <canvas
         #canvasEl
-        width="400"
-        height="200"
-        class="p-4"
-        style="
-          background-color: var(--white);
-          margin: 0 auto;
-          border: 1px solid rgb(203 213 225);
-          border-radius: 5px;
-          display: flex;
-        "
+        width="450"
+        height="100"
+        class="p-4 mx-auto my-0"
       ></canvas>
-
-      <!-- <app-canvas class="rounded-md"></app-canvas> -->
-      <!-- <img class="rounded-md" [src]="this.imgLink" alt="preview" /> -->
-      <!-- <img class="rounded-md" src="/assets/template.png" alt="preview" /> -->
     </div>
   </div>
 </div>

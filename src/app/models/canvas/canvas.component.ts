@@ -15,7 +15,24 @@ export class CanvasComponent implements OnInit {
   canvas!: ElementRef<HTMLCanvasElement>;
 
   private ctx!: CanvasRenderingContext2D;
-  fonts = ['hwAnita', 'hwBernie', 'hwBlaire', 'hwChase', 'hwDavid', 'hwKate'];
+  fonts = [
+    'hwAnita',
+    'hwBernie',
+    'hwBlaire',
+    'hwCaitlin',
+    'hwCharity',
+    'hwChase',
+    'hwDavid',
+    'hwDarleen',
+    'hwLulu',
+    'hwJarrod',
+    'hwKate',
+    'hwJennifer',
+    'hwRuthie',
+    'hwKelsey',
+    'hwJonathan',
+    'hwWill',
+  ];
   private currentFontIndex = 0;
 
   constructor(private textService: TextService) {}

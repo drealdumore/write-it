@@ -171,11 +171,12 @@
 
   <div class="templates pt-6">
     <h2 class="font-semibold text-lg pb-1">Select a Font:</h2>
-    <div class="templates__container flex flex-wrap gap-4 justify-center">
+    <div class="templates__container flex flex-wrap gap-4 justify-start">
       @for(font of fonts; track font; let i = $index) {
       <div
         class="templates__container--template rounded-lg flex"
         (click)="fontSelected(i)"
+        [ngClass]="{ active__template: selectedFont === i }"
       >
         <img [src]="font.src" [alt]="font.alt" class="rounded-lg" />
       </div>

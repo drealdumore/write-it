@@ -24,7 +24,10 @@ import {
 } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { CommunicationService } from '../../services/communication.service';
+import {
+  CommunicationService,
+  Message,
+} from '../../services/communication.service';
 import { NgxColorsModule } from 'ngx-colors';
 
 interface FontImageInterface {
@@ -46,16 +49,52 @@ const fontImage: FontImageInterface[] = [
     alt: 'blaireFont',
   },
   {
+    src: '/assets/fnt/caitlinFont.png',
+    alt: 'caitlinFont',
+  },
+  {
+    src: '/assets/fnt/charityFont.png',
+    alt: 'charityFont',
+  },
+  {
     src: '/assets/fnt/chaseFont.jpg',
     alt: 'chaseFont',
+  },
+  {
+    src: '/assets/fnt/darleenFont.png',
+    alt: 'darleenFont',
   },
   {
     src: '/assets/fnt/davidFont.jpg',
     alt: 'davidFont',
   },
   {
+    src: '/assets/fnt/jarrodFont.png',
+    alt: 'jarrodFont',
+  },
+  {
+    src: '/assets/fnt/jonathanFont.png',
+    alt: 'jonathanFont',
+  },
+  {
     src: '/assets/fnt/kateFont.jpg',
     alt: 'kateFont',
+  },
+  {
+    src: '/assets/fnt/kelseyFont.png',
+    alt: 'kelseyFont',
+  },
+  {
+    src: '/assets/fnt/luluFont.png',
+    alt: 'luluFont',
+  },
+  {
+    src: '/assets/fnt/ruthieFont.png',
+    alt: 'ruthieFont',
+  },
+  {
+    src: '/assets/fnt/willFont.png',
+    alt: 'willFont',
   },
 ];
 
@@ -169,11 +208,11 @@ export class InputComponent implements OnInit {
     });
 
     this.fontSizeForm = this.fb.group({
-      fontSize: [30, Validators.min(10)],
+      fontSize: [45, Validators.min(10)],
     });
 
     this.fontSizeForm2 = this.fb.group({
-      fontSize: [30, Validators.min(10)],
+      fontSize: [40, Validators.min(10)],
     });
 
     const control1 = this.input1.get('input');
@@ -261,7 +300,7 @@ export class InputComponent implements OnInit {
   }
 
   sendMessageToCanvas() {
-    const message = {
+    const message: Message = {
       fontSize1: this.fontSize1,
       fontColor1: this.selectedColor,
       fontSize2: this.fontSize2,

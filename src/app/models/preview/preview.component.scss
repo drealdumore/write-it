@@ -5,3 +5,9 @@ button {
   height: 38px;
   border-radius: 5px;
 }
+
+.wrapper {
+  max-height: calc(-48px + 100vh);
+  overflow-y: auto;
+  padding-right: 1rem;
+}

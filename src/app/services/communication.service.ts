@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-interface Message {
+export interface Message {
   fontSize1: number;
   fontColor1: any;
   fontSize2: number;
@@ -13,20 +13,15 @@ interface Message {
   providedIn: 'root',
 })
 export class CommunicationService {
-  // private messageSource = new Subject();
-
   private messageSource = new Subject<Message>();
   message$ = this.messageSource.asObservable();
 
   private fontSelectedSource = new Subject<number>();
   fontSelected$ = this.fontSelectedSource.asObservable();
 
-
-  // sendMessage(message: any) {
   sendMessage(message: Message) {
     this.messageSource.next(message);
   }
-
 
   sendFontSelected(index: number) {
     this.fontSelectedSource.next(index);

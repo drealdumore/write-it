@@ -38,7 +38,6 @@
   font-display: swap;
 }
 
-
 @font-face {
   font-family: "hwDavid";
   src: url("./assets/fonts/hwDavid-Regular.woff2") format("woff2"),
@@ -52,6 +51,87 @@
   font-family: "hwKate";
   src: url("./assets/fonts/hwKate-Regular.woff2") format("woff2"),
     url("./assets/fonts/hwKate-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwRuthie";
+  src: url("./assets/fonts/hwRuthie-Normal.woff2") format("woff2"),
+    url("./assets/fonts/hwRuthie-Normal.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwKelsey";
+  src: url("./assets/fonts/hwKelsey-Normal.woff2") format("woff2"),
+    url("./assets/fonts/hwKelsey-Normal.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwJonathan";
+  src: url("./assets/fonts/hwJonathan-Regular.woff2") format("woff2"),
+    url("./assets/fonts/hwJonathan-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwCaitlin";
+  src: url("./assets/fonts/hwCaitlin-Regular.woff2") format("woff2"),
+    url("./assets/fonts/hwCaitlin-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwJarrod";
+  src: url("./assets/fonts/hwJarrod-Regular.woff2") format("woff2"),
+    url("./assets/fonts/hwJarrod-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwCharity";
+  src: url("./assets/fonts/hwCharity-Normal.woff2") format("woff2"),
+    url("./assets/fonts/hwCharity-Normal.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwWill";
+  src: url("./assets/fonts/hwWill-Normal.woff2") format("woff2"),
+    url("./assets/fonts/hwWill-Normal.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwLulu";
+  src: url("./assets/fonts/hwLulu-Normal.woff2") format("woff2"),
+    url("./assets/fonts/hwLulu-Normal.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hwDarleen";
+  src: url("./assets/fonts/hwDarleen-Normal.woff2") format("woff2"),
+    url("./assets/fonts/hwDarleen-Normal.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -74,6 +154,7 @@
 body {
   background: #fffc;
   transition: all 0.4s ease;
+  overflow: hidden;
 }
 
 .fade-in {

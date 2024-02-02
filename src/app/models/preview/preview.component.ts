@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { radixDownload } from '@ng-icons/radix-icons';
 import { CanvasComponent } from '../canvas/canvas.component';
@@ -19,11 +25,28 @@ export class PreviewComponent implements OnDestroy {
   canvas!: ElementRef<HTMLCanvasElement>;
 
   private ctx!: CanvasRenderingContext2D;
-  private currentFontIndex: number = 2;
+  private currentFontIndex: number = 0;
   private messageFromInput: any;
   private subscription: Subscription;
 
-  fonts = ['hwAnita', 'hwBernie', 'hwBlaire', 'hwChase', 'hwDavid', 'hwKate'];
+  fonts = [
+    'hwAnita',
+    'hwBernie',
+    'hwBlaire',
+    'hwCaitlin',
+    'hwCharity',
+    'hwChase',
+    'hwDarleen',
+    'hwDavid',
+    'hwJarrod',
+    'hwJonathan',
+    'hwKate',
+    'hwKelsey',
+    'hwLulu',
+    'hwRuthie',
+    'hwWill',
+  ];
+
   text1: string = '';
   text2: string = '';
   imgLink: string = '';
@@ -32,16 +55,15 @@ export class PreviewComponent implements OnDestroy {
   fontColor1: any;
   fontSize2: number = 0;
   fontColor2: any;
-  selectedFont: number = 0;
 
-  color: string = '#3540c0';
+  canvasDataURL: string = '';
+  unit: string = 'px';
 
   constructor(
     private communicationService: CommunicationService,
-    private textService: TextService
+    private textService: TextService,
+    private renderer: Renderer2
   ) {
-    console.log(this.currentFontIndex);
-
     this.subscription = this.communicationService.message$.subscribe(
       (message) => {
         this.receiveMessageFromInput(message);
@@ -61,7 +83,7 @@ export class PreviewComponent implements OnDestroy {
 
   receiveMessageFromInput(message: any) {
     this.messageFromInput = message;
-    console.log(this.messageFromInput);
+    // console.log(this.messageFromInput);
 
     this.fontSize1 = this.messageFromInput.fontSize1;
     this.fontColor1 = this.messageFromInput.fontColor1;
@@ -69,7 +91,6 @@ export class PreviewComponent implements OnDestroy {
     this.fontColor2 = this.messageFromInput.fontColor2;
 
     this.currentFontIndex = this.messageFromInput.selectedFont;
-    // this.selectedFont = this.messageFromInput.selectedFont
 
     this.changeFontWithCurrentFont(this.text1);
     this.changeFontWithCurrentFont(this.text2);
@@ -98,42 +119,50 @@ export class PreviewComponent implements OnDestroy {
       this.changeFontWithCurrentFont(this.text2);
     });
   }
+
   changeFont(font: string) {
     this.currentFontIndex = this.fonts.indexOf(font);
     // this.currentFontIndex = this.fonts.indexOf(font);
     this.textService.currentText.subscribe((newText) => {
       this.changeFontWithCurrentFont(newText);
     });
-    console.log('😂💚➡', this.currentFontIndex);
-    console.log('😂💚➡', this.fonts[this.currentFontIndex]);
   }
 
   changeFontWithCurrentFont(newText: string) {
     // Enable image smoothing
     this.ctx.imageSmoothingEnabled = true;
 
-    this.ctx.font = `${this.fontSize1}px ${this.fonts[this.currentFontIndex]}`;
+    this.ctx.font = `${this.fontSize1}${this.unit} ${
+      this.fonts[this.currentFontIndex]
+    }`;
+
     const canvasWidth = this.canvas.nativeElement.width;
     let canvasHeight = this.canvas.nativeElement.height;
     const lineHeight = 22;
+    const padding = 10; // Padding between text1 and text2
 
     this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     this.ctx.fillStyle = 'white';
     this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    const xOffset = 20;
 
-    // Initialize variables for positioning
+    // Calculate equal padding on both sides
+    const xOffset = padding;
+
+    // For positioning
     let x = xOffset;
-    let y = lineHeight;
+    let y = lineHeight + 5;
 
-    const currentText = this.text1 || this.text2; // Use either text1 or text2 based on your logic
+    const text1 = this.text1;
+    const text2 = this.text2;
+
+    const currentText = this.text1 || this.text2;
     const words = currentText.split(' ');
 
     words.forEach((word, index) => {
       const wordWidth = this.ctx.measureText(word).width;
 
       // Check if the word exceeds the available width
-      if (x + wordWidth > canvasWidth) {
+      if (x + wordWidth > canvasWidth - xOffset) {
         // Move to the next line
         x = xOffset;
         y += lineHeight;
@@ -144,8 +173,11 @@ export class PreviewComponent implements OnDestroy {
         // Increase the canvas height
         canvasHeight += lineHeight;
         this.canvas.nativeElement.height = canvasHeight;
+        // Update the context after increasing the canvas height
+        // this.ctx = this.canvas.nativeElement.getContext('2d')!;
       }
 
+      
       // Draw the word
       this.ctx.fillStyle = this.fontColor1;
       this.ctx.fillText(word, x, y);
@@ -157,30 +189,33 @@ export class PreviewComponent implements OnDestroy {
     });
 
     // Set position for the additional text from the second observable
-    const additionalText = this.text2;
-    const additionalTextWidth = this.ctx.measureText(additionalText).width;
-    const additionalTextX = canvasWidth - additionalTextWidth;
-    const additionalTextY = canvasHeight - lineHeight;
+    const additionalTextWidth = this.ctx.measureText(text2).width;
+    const additionalTextX = canvasWidth - additionalTextWidth - xOffset;
+    const additionalTextY = y + lineHeight + padding; // Place it below the first text with padding
 
-    // Draw the additional text from the second observable close to the bottom and aligned to the right
+    // Draw the additional text from the second observable with padding from the first text
     this.ctx.fillStyle = this.fontColor2;
-    this.ctx.font = `${this.fontSize2}px ${this.fonts[this.currentFontIndex]}`;
-    this.ctx.fillText(additionalText, additionalTextX, additionalTextY);
+    this.ctx.font = `${this.fontSize2}${this.unit} ${
+      this.fonts[this.currentFontIndex]
+    }`;
+    this.ctx.fillText(text2, additionalTextX, additionalTextY);
+
+    const canvas = this.canvas.nativeElement;
+    this.canvasDataURL = canvas.toDataURL();
+    this.renderer.setStyle(canvas, 'visibility', 'hidden');
   }
 
   nextFont() {
     this.currentFontIndex = (this.currentFontIndex + 1) % this.fonts.length;
     this.changeFont(this.fonts[this.currentFontIndex]);
-    console.log('✔😢🚫');
   }
 
   downloadCanvas() {
     const canvas = this.canvas.nativeElement;
-    const dataUrl = canvas.toDataURL(); // Get the data URL of the canvas
+    const dataURL = canvas.toDataURL('image/png');
     const link = document.createElement('a');
-    link.href = dataUrl;
-    this.imgLink = dataUrl;
-    link.download = 'quillify-letterify.jpg'; // Set the desired file name
+    link.href = dataURL;
+    link.download = 'quillify-letterify.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
