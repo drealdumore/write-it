@@ -6,7 +6,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 //   providedIn: 'root'
 // })
 export class ModalService {
-  modalSignal = signal<boolean>(true);
+  modalSignal = signal<boolean>(false);
   modalObservable = toObservable(this.modalSignal);
   constructor() {}
 
