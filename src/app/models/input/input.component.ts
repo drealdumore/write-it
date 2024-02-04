@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -111,6 +112,7 @@ const fontImage: FontImageInterface[] = [
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
   viewProviders: [provideIcons({ radixMagicWand, radixGear, radixChevronUp })],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputComponent implements OnInit {
   @ViewChild('collapsibleButton') collapsibleButton!: ElementRef;

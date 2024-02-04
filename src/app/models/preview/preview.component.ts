@@ -47,6 +47,8 @@ export class PreviewComponent implements OnDestroy {
     'hwWill',
   ];
 
+  loading: boolean = false;
+
   text1: string = '';
   text2: string = '';
   imgLink: string = '';
@@ -71,16 +73,6 @@ export class PreviewComponent implements OnDestroy {
     );
   }
 
-  loadFonts() {
-    const fontPromises = this.fonts.map((font) => {
-      const fontFace = `url(./assets/fonts/${font}.woff2) format('woff2'), url(./assets/fonts/${font}.woff) format('woff')`;
-      document.fonts.load(fontFace);
-      return fontFace;
-    });
-
-    return Promise.all(fontPromises);
-  }
-
   receiveMessageFromInput(message: any) {
     this.messageFromInput = message;
     // console.log(this.messageFromInput);
@@ -96,11 +88,29 @@ export class PreviewComponent implements OnDestroy {
     this.changeFontWithCurrentFont(this.text2);
   }
 
+  loadFonts() {
+    const fontPromises = this.fonts.map((font) => {
+      const fontFace = `url(./assets/fonts/${font}.woff2) format('woff2'), url(./assets/fonts/${font}.woff) format('woff')`;
+      document.fonts.load(fontFace);
+      return fontFace;
+    });
+
+    return Promise.all(fontPromises);
+  }
+
   ngOnInit() {
     this.loadFonts().then(() => {
-      // Add event listener to check when fonts are loaded
       document.fonts.addEventListener('loadingdone', () => {
         this.changeFont(this.fonts[this.currentFontIndex]);
+        this.loading = false;
+      });
+
+      document.fonts.addEventListener('loading', () => {
+        this.loading = true;
+      });
+
+      document.fonts.addEventListener('error', (error) => {
+        console.error('Font loading error:', error);
       });
     });
 
@@ -129,9 +139,6 @@ export class PreviewComponent implements OnDestroy {
   }
 
   changeFontWithCurrentFont(newText: string) {
-    // Enable image smoothing
-    this.ctx.imageSmoothingEnabled = true;
-
     this.ctx.font = `${this.fontSize1}${this.unit} ${
       this.fonts[this.currentFontIndex]
     }`;
@@ -144,7 +151,7 @@ export class PreviewComponent implements OnDestroy {
     this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     this.ctx.fillStyle = 'white';
     this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
+    
     // Calculate equal padding on both sides
     const xOffset = padding;
 
@@ -177,7 +184,6 @@ export class PreviewComponent implements OnDestroy {
         // this.ctx = this.canvas.nativeElement.getContext('2d')!;
       }
 
-      
       // Draw the word
       this.ctx.fillStyle = this.fontColor1;
       this.ctx.fillText(word, x, y);
@@ -202,15 +208,16 @@ export class PreviewComponent implements OnDestroy {
 
     const additionalTextWidth = this.ctx.measureText(text2).width;
     const additionalTextX = canvasWidth - additionalTextWidth - xOffset;
-  // const additionalTextY = y + lineHeight + padding; 
+    // const additionalTextY = y + lineHeight + padding;
     // Add padding of 15px from the bottom for text2
     const additionalTextY = canvasHeight - 15;
-  
+
     // Draw the additional text from the second observable with padding from the first text
     this.ctx.fillStyle = this.fontColor2;
-    this.ctx.font = `${this.fontSize2}${this.unit} ${this.fonts[this.currentFontIndex]}`;
+    this.ctx.font = `${this.fontSize2}${this.unit} ${
+      this.fonts[this.currentFontIndex]
+    }`;
     this.ctx.fillText(text2, additionalTextX, additionalTextY);
-  
 
     const canvas = this.canvas.nativeElement;
     this.canvasDataURL = canvas.toDataURL();
@@ -220,73 +227,72 @@ export class PreviewComponent implements OnDestroy {
   // changeFontWithCurrentFont(newText: string) {
   //   this.ctx.imageSmoothingEnabled = true;
   //   this.ctx.font = `${this.fontSize1}${this.unit} ${this.fonts[this.currentFontIndex]}`;
-  
+
   //   const canvasWidth = this.canvas.nativeElement.width;
   //   let canvasHeight = this.canvas.nativeElement.height;
   //   const lineHeight = 22;
   //   const paddingBetweenText = 10;
   //   const paddingForText2 = 15;
-  
+
   //   this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   //   this.ctx.fillStyle = 'white';
   //   this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-  
+
   //   const xOffset = paddingBetweenText;
   //   let x = xOffset;
   //   let y = lineHeight + 5;
-  
+
   //   const text1 = this.text1;
   //   const text2 = this.text2;
   //   const currentText = this.text1 || this.text2;
   //   const words = currentText.split(' ');
-  
+
   //   words.forEach((word, index) => {
   //     const wordWidth = this.ctx.measureText(word).width;
-  
+
   //     if (x + wordWidth > canvasWidth - xOffset) {
   //       x = xOffset;
   //       y += lineHeight;
   //     }
-  
+
   //     if (y + lineHeight > canvasHeight) {
   //       canvasHeight += lineHeight;
   //       this.canvas.nativeElement.height = canvasHeight;
   //     }
-  
+
   //     this.ctx.fillStyle = this.fontColor1;
   //     this.ctx.fillText(word, x, y);
-  
+
   //     x += wordWidth + (index < words.length - 1 ? this.ctx.measureText(' ').width : 0);
   //   });
-  
+
   //   // Draw the first text (text1) outside the loop
   //   this.ctx.fillStyle = this.fontColor1;
   //   this.ctx.fillText(text1, xOffset, lineHeight + 5);
-  
+
   //   // Update y position for the next text (text2)
   //   y += lineHeight + paddingBetweenText;
-  
+
   //   // Calculate the new canvas height after adding padding for text2
   //   canvasHeight = y + lineHeight + paddingForText2;
-  
+
   //   // Set the new canvas height
   //   this.canvas.nativeElement.height = canvasHeight;
-  
+
   //   // Set position for the second text (text2)
   //   const additionalTextWidth = this.ctx.measureText(text2).width;
   //   const additionalTextX = canvasWidth - additionalTextWidth - xOffset;
   //   const additionalTextY = canvasHeight - paddingForText2;
-  
+
   //   // Draw the second text (text2) with padding from the first text
   //   this.ctx.fillStyle = this.fontColor2;
   //   this.ctx.font = `${this.fontSize2}${this.unit} ${this.fonts[this.currentFontIndex]}`;
   //   this.ctx.fillText(text2, additionalTextX, additionalTextY);
-  
+
   //   const canvas = this.canvas.nativeElement;
   //   this.canvasDataURL = canvas.toDataURL();
   //   this.renderer.setStyle(canvas, 'visibility', 'hidden');
   // }
-  
 
   nextFont() {
     this.currentFontIndex = (this.currentFontIndex + 1) % this.fonts.length;
