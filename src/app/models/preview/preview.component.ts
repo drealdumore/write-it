@@ -298,7 +298,7 @@ export class PreviewComponent implements OnDestroy {
     const dataURL = canvas.toDataURL('image/png');
     const link = document.createElement('a');
     link.href = dataURL;
-    link.download = 'quillify-letterify.png';
+    link.download = 'write-it.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

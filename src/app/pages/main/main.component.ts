@@ -33,6 +33,6 @@ export class MainComponent {
 
   aiModalActive() {
     this.modalService.openModal();
-    console.log('calling ai modal');
+    // console.log('calling ai modal');
   }
 }

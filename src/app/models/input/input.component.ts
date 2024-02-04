@@ -172,7 +172,7 @@ export class InputComponent implements OnInit {
   fontColor1: any;
   fontSize2: number = 0;
   fontColor2: any;
-  selectedFont: number = 0;
+  selectedFont: number = 2;
 
   setting1: boolean = false;
   setting2: boolean = false;

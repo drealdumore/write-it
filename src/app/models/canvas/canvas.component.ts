@@ -52,7 +52,7 @@ export class CanvasComponent implements OnInit {
     this.textService.currentText.subscribe((newText) => {
       this.changeFontWithCurrentFont(newText);
     });
-    console.log('😂💚➡', this.currentFontIndex);
+    // console.log('😂💚➡', this.currentFontIndex);
   }
 
   changeFontWithCurrentFont(newText: string) {
@@ -83,7 +83,7 @@ export class CanvasComponent implements OnInit {
   nextFont() {
     this.currentFontIndex = (this.currentFontIndex + 1) % this.fonts.length;
     this.changeFont(this.fonts[this.currentFontIndex]);
-    console.log('✔😢🚫');
+    // console.log('✔😢🚫');
   }
 
   downloadCanvas() {
