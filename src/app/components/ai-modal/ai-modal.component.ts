@@ -20,7 +20,6 @@ import { debounceTime } from 'rxjs';
     }),
   ],
 })
-
 export class AiModalComponent implements OnInit {
   descriptionGroup!: FormGroup;
 
@@ -49,8 +48,11 @@ export class AiModalComponent implements OnInit {
     }
   }
 
+  result: any;
+
   generateWithAi() {
     console.log(this.descriptionGroup.value.input);
+    // let url = 'https://api.openai.com/v1/engines/gpt-3.5-turbo/completions';
     let url = 'https://api.openai.com/v1/chat/completions';
 
     let httpHeader = new HttpHeaders().set(
@@ -59,15 +61,18 @@ export class AiModalComponent implements OnInit {
     );
 
     let payload = {
-      model: 'gpt-3.5-turbo-1106',
+      model: 'gpt-3.5-turbo',
       messages: this.messages,
     };
 
     this.http.post(url, payload, { headers: httpHeader }).subscribe({
       next: (resp) => {
+        this.result = resp;
         console.log(JSON.stringify(resp));
       },
-      error: (err) => {},
+      error: (err) => {
+        console.log(err);
+      },
     });
   }
 

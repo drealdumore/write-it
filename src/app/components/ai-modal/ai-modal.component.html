@@ -49,6 +49,13 @@
         <div *ngFor="let message of chatHistory">
           {{ message }}
         </div>
+
+        <div class="bg-black" *ngIf="result">
+          <pre>{{ result | json }}</pre>
+          <ul>
+            <li *ngFor="let choice of result.choices">{{ choice.text }}</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
