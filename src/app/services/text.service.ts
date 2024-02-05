@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class TextService {
   private textSource = new BehaviorSubject<string>(
-    'this world is so quick to judge & too late to understand'
+    'This world is so quick to judge & too late to understand'
   );
   currentText = this.textSource.asObservable();
 

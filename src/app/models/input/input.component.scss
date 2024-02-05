@@ -112,3 +112,14 @@
   // background-color: #f1f1f1;
   transition: all 0.5s ease;
 }
+
+@media only screen and (max-width: 600px) {
+  .wrapper {
+    padding: 0 10px;
+    padding-bottom: 15rem;
+  }
+
+  .templates__container--template {
+    height: 57px;
+  }
+}

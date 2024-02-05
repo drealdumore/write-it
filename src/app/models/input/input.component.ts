@@ -210,11 +210,11 @@ export class InputComponent implements OnInit {
     });
 
     this.fontSizeForm = this.fb.group({
-      fontSize: [45, Validators.min(10)],
+      fontSize: [47, Validators.min(10)],
     });
 
     this.fontSizeForm2 = this.fb.group({
-      fontSize: [40, Validators.min(10)],
+      fontSize: [44, Validators.min(10)],
     });
 
     const control1 = this.input1.get('input');
