@@ -4,8 +4,6 @@ canvas {
   display: none;
 }
 
-
-
 button {
   border: none;
   font-family: inherit;
@@ -24,9 +22,16 @@ button {
   width: 28rem;
 }
 
-
 @media only screen and (max-width: 600px) {
   .wrapper {
     padding: 10px;
+  }
+
+  button {
+    width: 6rem;
+  }
+
+  .loader {
+    width: 21rem;
   }
 }

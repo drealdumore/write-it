@@ -2,8 +2,9 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  Renderer2,
   ViewChild,
+  effect,
+  signal,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { radixDownload } from '@ng-icons/radix-icons';
@@ -11,6 +12,7 @@ import { CanvasComponent } from '../canvas/canvas.component';
 import { TextService } from '../../services/text.service';
 import { Subscription } from 'rxjs';
 import { CommunicationService } from '../../services/communication.service';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'preview',
@@ -61,10 +63,13 @@ export class PreviewComponent implements OnDestroy {
   canvasDataURL: string = '';
   unit: string = 'px';
 
+  userId = signal('');
+
   constructor(
     private communicationService: CommunicationService,
     private textService: TextService,
-    private renderer: Renderer2
+
+    private fireStorage: AngularFireStorage
   ) {
     this.subscription = this.communicationService.message$.subscribe(
       (message) => {
@@ -151,7 +156,7 @@ export class PreviewComponent implements OnDestroy {
     this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     this.ctx.fillStyle = 'white';
     this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    
+
     // Calculate equal padding on both sides
     const xOffset = padding;
 
@@ -221,7 +226,7 @@ export class PreviewComponent implements OnDestroy {
 
     const canvas = this.canvas.nativeElement;
     this.canvasDataURL = canvas.toDataURL();
-    this.renderer.setStyle(canvas, 'visibility', 'hidden');
+    // this.renderer.setStyle(canvas, 'visibility', 'hidden');
   }
 
   // changeFontWithCurrentFont(newText: string) {
@@ -310,7 +315,59 @@ export class PreviewComponent implements OnDestroy {
     document.body.removeChild(link);
   }
 
+  // async uploadPhoto() {
+  //   try {
+  // const canvasElement = this.canvas.nativeElement;
+
+  // // Convert canvas to data URL
+  // const dataURL = canvasElement.toDataURL('image/png');
+
+  // // Convert data URL to Blob
+  // const blob = await fetch(dataURL).then((res) => res.blob());
+
+  //     const randomId = generateRandomId();
+
+  //     const imagePath = `images/write-it_${randomId}.png`;
+
+  //     const uploadTask = await this.fireStorage.upload(imagePath, blob);
+  //     const url = await uploadTask.ref.getDownloadURL();
+  //     console.log(url);
+  //   } catch (error) {
+  //     console.error('An error occurred:', error);
+  //   }
+  // }
+
+  async uploadPhoto() {
+    try {
+      const canvasElement = this.canvas.nativeElement;
+
+      // Convert canvas to data URL
+      const dataURL = canvasElement.toDataURL('image/png');
+
+      // Convert data URL to Blob
+      const blob = await fetch(dataURL).then((res) => res.blob());
+
+      const url = await this.communicationService.uploadImage(blob);
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+}
+
+function generateRandomId(): string {
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const length = 8;
+  let randomId = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomId += characters.charAt(randomIndex);
+  }
+
+  return randomId;
 }

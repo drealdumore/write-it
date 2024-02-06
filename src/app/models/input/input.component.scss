@@ -120,10 +120,15 @@
   }
 
   .templates__container--template {
-    height: 57px;
+    // height: 57px;
+    width: 31%;
   }
 
   .templates__container {
     padding-bottom: 2rem;
+  }
+
+  .PB-range-slider-div {
+    font-size: 15px;
   }
 }

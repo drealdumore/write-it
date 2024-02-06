@@ -7,10 +7,22 @@ import {
 import { importProvidersFrom } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from './environments/environment.development';
+
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(BrowserModule, BrowserAnimationsModule),
+    importProvidersFrom(
+      BrowserModule,
+      BrowserAnimationsModule,
+      AngularFireModule.initializeApp(environment.firebaseConfig),
+      AngularFireStorageModule,
+      provideFirebaseApp(() => initializeApp(environment.firebaseConfig))
+    ),
     provideHttpClient(withInterceptorsFromDi()),
     provideRouter(
       [
@@ -36,6 +48,13 @@ bootstrapApplication(AppComponent, {
           loadComponent: () =>
             import('./app/models/canvas/canvas.component').then(
               (c) => c.CanvasComponent
+            ),
+        },
+        {
+          path: 'download/:id',
+          loadComponent: () =>
+            import('./app/pages/download/download.component').then(
+              (c) => c.DownloadComponent
             ),
         },
 

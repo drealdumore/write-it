@@ -178,7 +178,7 @@
     >
       @for(font of fonts; track font; let i = $index) {
       <div
-        class="templates__container--template rounded-lg flex"
+        class="templates__container--template rounded-lg flex items-center justify-center"
         (click)="fontSelected(i)"
         [ngClass]="{ active__template: selectedFont === i }"
       >

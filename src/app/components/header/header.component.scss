@@ -14,6 +14,10 @@ a {
   color: var(--black);
 }
 
+button {
+  cursor: url("/assets/cursor.svg"), auto;
+}
+
 @media only screen and (max-width: 600px) {
   button {
     border-radius: 4px;
