@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Observable, Subject, finalize, from, switchMap } from 'rxjs';
+import { Observable, Subject, finalize, from, of, switchMap } from 'rxjs';
 
 export interface Message {
   fontSize1: number;
@@ -13,6 +14,7 @@ export interface Message {
 @Injectable({
   providedIn: 'root',
 })
+
 export class CommunicationService {
   private messageSource = new Subject<Message>();
   message$ = this.messageSource.asObservable();
@@ -28,9 +30,14 @@ export class CommunicationService {
     this.fontSelectedSource.next(index);
   }
 
+  // storage and database service
   imagePath = signal('');
   imageUrl = signal('');
-  constructor(private fireStorage: AngularFireStorage) {}
+  
+  constructor(
+    private fireStorage: AngularFireStorage,
+    private realtimeDatabase: AngularFireDatabase
+  ) {}
 
   private imageInfoSubject = new Subject<{ url: string; path: string }>();
 
@@ -38,7 +45,7 @@ export class CommunicationService {
     this.imageInfoSubject.asObservable();
 
   uploadImage(blob: Blob): void {
-    this.imageUrl.set (this.generateRandomId());
+    this.imageUrl.set(this.generateRandomId());
     this.imagePath.set(`images/write-it_${this.imageUrl()}.png`);
 
     const uploadTask = this.fireStorage.upload(this.imagePath(), blob);
@@ -53,24 +60,57 @@ export class CommunicationService {
             .getDownloadURL()
             .subscribe((url) => {
               this.imageInfoSubject.next({ url, path: this.imagePath() });
+              this.saveImagePathToDatabase(this.imagePath(), this.imageUrl());
             });
         })
       )
       .subscribe();
   }
 
-  getDownloadUrl(imagePath: string): Observable<string> {
-    imagePath = this.imagePath();
-    console.log(this.imagePath());
+  getImageUrl(imagePath: string): Observable<any> {
+    return this.realtimeDatabase
+      .object('imagePaths/' + imagePath)
+      .valueChanges();
+  }
 
-    return from(this.fireStorage.ref(imagePath).getDownloadURL());
+  private saveImagePathToDatabase(imagePath: string, imageUrl: string): void {
+    this.realtimeDatabase
+      .object('imagePaths/' + imageUrl)
+      .set({ url: imageUrl, path: imagePath });
   }
 
   getData() {
     return this.imagePath() && this.imageUrl();
   }
 
-  // I want to save the imagepath and id and then retrieve it to use in the download
+  getImageAndUrlById(id: string): Observable<{ url: string; path: string }> {
+    const imagePath = `images/write-it_${id}.png`;
+
+    return this.realtimeDatabase
+      .object<{ url: string; path: string }>('imagePaths/' + id)
+      .valueChanges()
+      .pipe(
+        switchMap((data) => {
+          if (data) {
+            return this.getDownloadUrl(imagePath).pipe(
+              finalize(() => {
+                console.log('Image URL:', data.url);
+              })
+            );
+          } else {
+            console.error('Document not found for id:', id);
+            // Returning an observable with a default or placeholder value
+            return of({ url: '', path: '' });
+          }
+        })
+      );
+  }
+
+  getDownloadUrl(imagePath: string): Observable<{ url: string; path: string }> {
+    return from(this.fireStorage.ref(imagePath).getDownloadURL()).pipe(
+      switchMap((url) => of({ url, path: imagePath }))
+    );
+  }
 
   private generateRandomId(): string {
     const characters =

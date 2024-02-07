@@ -21,6 +21,8 @@
     "@angular/router": "^17.1.0",
     "@ng-icons/core": "^26.3.0",
     "@ng-icons/radix-icons": "^26.3.0",
+    "@ngneat/hot-toast": "^6.1.0",
+    "@ngneat/overview": "^5.1.1",
     "ngx-clipboard": "^16.0.0",
     "ngx-colors": "^3.5.3",
     "rxjs": "~7.8.0",

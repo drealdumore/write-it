@@ -14,6 +14,7 @@ export class HeaderComponent {
 
   isAppPage(): boolean {
     const currentUrl = this.router.url;
-    return currentUrl === '/app';
+    return currentUrl === '/app' || currentUrl.startsWith('/download/');
   }
+  
 }

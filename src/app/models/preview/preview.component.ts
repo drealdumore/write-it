@@ -3,7 +3,6 @@ import {
   ElementRef,
   OnDestroy,
   ViewChild,
-  effect,
   signal,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -13,6 +12,7 @@ import { TextService } from '../../services/text.service';
 import { Subscription } from 'rxjs';
 import { CommunicationService } from '../../services/communication.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'preview',
@@ -49,6 +49,8 @@ export class PreviewComponent implements OnDestroy {
     'hwWill',
   ];
 
+  data = signal('');
+
   loading: boolean = false;
 
   text1: string = '';
@@ -68,6 +70,7 @@ export class PreviewComponent implements OnDestroy {
   constructor(
     private communicationService: CommunicationService,
     private textService: TextService,
+    private router: Router,
 
     private fireStorage: AngularFireStorage
   ) {
@@ -315,28 +318,6 @@ export class PreviewComponent implements OnDestroy {
     document.body.removeChild(link);
   }
 
-  // async uploadPhoto() {
-  //   try {
-  // const canvasElement = this.canvas.nativeElement;
-
-  // // Convert canvas to data URL
-  // const dataURL = canvasElement.toDataURL('image/png');
-
-  // // Convert data URL to Blob
-  // const blob = await fetch(dataURL).then((res) => res.blob());
-
-  //     const randomId = generateRandomId();
-
-  //     const imagePath = `images/write-it_${randomId}.png`;
-
-  //     const uploadTask = await this.fireStorage.upload(imagePath, blob);
-  //     const url = await uploadTask.ref.getDownloadURL();
-  //     console.log(url);
-  //   } catch (error) {
-  //     console.error('An error occurred:', error);
-  //   }
-  // }
-
   async uploadPhoto() {
     try {
       const canvasElement = this.canvas.nativeElement;
@@ -348,6 +329,11 @@ export class PreviewComponent implements OnDestroy {
       const blob = await fetch(dataURL).then((res) => res.blob());
 
       const url = await this.communicationService.uploadImage(blob);
+
+      this.data.set(this.communicationService.getData());
+      console.log(this.data());
+
+      this.router.navigate([`/download/${this.data()}`]);
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -356,18 +342,4 @@ export class PreviewComponent implements OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-}
-
-function generateRandomId(): string {
-  const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const length = 8;
-  let randomId = '';
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    randomId += characters.charAt(randomIndex);
-  }
-
-  return randomId;
 }

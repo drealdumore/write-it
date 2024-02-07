@@ -11,16 +11,19 @@ import { environment } from './environments/environment.development';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideHotToastConfig } from '@ngneat/hot-toast';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideHotToastConfig(),
     importProvidersFrom(
       BrowserModule,
       BrowserAnimationsModule,
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFireStorageModule,
+      AngularFireDatabaseModule,
       provideFirebaseApp(() => initializeApp(environment.firebaseConfig))
     ),
     provideHttpClient(withInterceptorsFromDi()),
@@ -28,7 +31,7 @@ bootstrapApplication(AppComponent, {
       [
         {
           path: '',
-          title: 'Quillify',
+          title: 'Write it',
           loadComponent: () =>
             import('./app/pages/home/home.component').then(
               (c) => c.HomeComponent
@@ -36,7 +39,7 @@ bootstrapApplication(AppComponent, {
         },
         {
           path: 'app',
-          title: 'App',
+          title: 'App | Write it',
           loadComponent: () =>
             import('./app/pages/main/main.component').then(
               (c) => c.MainComponent
@@ -44,10 +47,10 @@ bootstrapApplication(AppComponent, {
         },
         {
           path: 'canvas',
-          title: 'Canvas',
+          title: 'Canvas | Write it',
           loadComponent: () =>
-            import('./app/models/canvas/canvas.component').then(
-              (c) => c.CanvasComponent
+          import('./app/models/canvas/canvas.component').then(
+            (c) => c.CanvasComponent
             ),
         },
         {
