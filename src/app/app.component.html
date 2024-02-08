@@ -1,3 +1,8 @@
-<header-nav></header-nav>
+<header-nav />
 <router-outlet />
 <!-- <footer-nav></footer-nav> -->
+
+<!-- <loader /> -->
+@if(loaderSignal()) {
+<loader />
+}

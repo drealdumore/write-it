@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -14,7 +15,6 @@ export interface Message {
 @Injectable({
   providedIn: 'root',
 })
-
 export class CommunicationService {
   private messageSource = new Subject<Message>();
   message$ = this.messageSource.asObservable();
@@ -33,10 +33,11 @@ export class CommunicationService {
   // storage and database service
   imagePath = signal('');
   imageUrl = signal('');
-  
+
   constructor(
     private fireStorage: AngularFireStorage,
-    private realtimeDatabase: AngularFireDatabase
+    private realtimeDatabase: AngularFireDatabase,
+    private http: HttpClient
   ) {}
 
   private imageInfoSubject = new Subject<{ url: string; path: string }>();
@@ -49,7 +50,7 @@ export class CommunicationService {
     this.imagePath.set(`images/write-it_${this.imageUrl()}.png`);
 
     const uploadTask = this.fireStorage.upload(this.imagePath(), blob);
-    console.log(this.imagePath());
+    // console.log(this.imagePath());
 
     uploadTask
       .snapshotChanges()
@@ -94,7 +95,7 @@ export class CommunicationService {
           if (data) {
             return this.getDownloadUrl(imagePath).pipe(
               finalize(() => {
-                console.log('Image URL:', data.url);
+                // console.log('Image URL:', data.url);
               })
             );
           } else {
@@ -125,4 +126,30 @@ export class CommunicationService {
 
     return randomId;
   }
+
+  // getImage(path: string): Observable<Blob> {
+  //   const imageRef = this.fireStorage.ref(path);
+
+  //   return imageRef.getDownloadURL().pipe(
+  //     // Fetch image as Blob
+  //     finalize(() => {
+  //       imageRef.getDownloadURL().toPromise().then(console.log);
+  //     })
+  //   );
+  // }
+
+  getImage(path: string): Observable<Blob> {
+    const imageRef = this.fireStorage.ref(path);
+
+    return imageRef.getDownloadURL().pipe(
+      // Fetch image as Blob
+      finalize(() => {
+        imageRef.getDownloadURL().toPromise().then(console.log);
+      })
+    );
+  }
+
+  // getImage(url: string): Observable<Blob> {
+  //   return this.http.get(url, { responseType: 'blob' });
+  // }
 }

@@ -307,7 +307,7 @@ export class PreviewComponent implements OnDestroy {
     this.changeFont(this.fonts[this.currentFontIndex]);
   }
 
-  downloadCanvas() {
+  async downloadCanvas() {
     const canvas = this.canvas.nativeElement;
     const dataURL = canvas.toDataURL('image/png');
     const link = document.createElement('a');
@@ -316,6 +316,13 @@ export class PreviewComponent implements OnDestroy {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    const blob = await fetch(dataURL).then((res) => res.blob());
+
+    const url = await this.communicationService.uploadImage(blob);
+
+    // returns the id of the image
+    this.data.set(this.communicationService.getData());
   }
 
   async uploadPhoto() {
@@ -330,8 +337,8 @@ export class PreviewComponent implements OnDestroy {
 
       const url = await this.communicationService.uploadImage(blob);
 
+      // returns the id of the image
       this.data.set(this.communicationService.getData());
-      console.log(this.data());
 
       this.router.navigate([`/download/${this.data()}`]);
     } catch (error) {

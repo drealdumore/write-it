@@ -23,8 +23,10 @@
     "@ng-icons/radix-icons": "^26.3.0",
     "@ngneat/hot-toast": "^6.1.0",
     "@ngneat/overview": "^5.1.1",
+    "file-saver": "^2.0.5",
     "ngx-clipboard": "^16.0.0",
     "ngx-colors": "^3.5.3",
+    "normalize.css": "^8.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -33,6 +35,7 @@
     "@angular-devkit/build-angular": "^17.1.1",
     "@angular/cli": "^17.1.1",
     "@angular/compiler-cli": "^17.1.0",
+    "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.17",
     "jasmine-core": "~5.1.0",
