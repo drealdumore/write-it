@@ -2,6 +2,7 @@ canvas {
   visibility: hidden;
   width: 21rem;
   display: none;
+  image-rendering: crisp-edges;
 }
 
 button {

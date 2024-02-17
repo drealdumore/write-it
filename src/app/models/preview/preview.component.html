@@ -11,7 +11,7 @@
     </button>
   </div>
 
-  @if(loading) {
+  @if(loading()) {
   <div class="container pt-5">
     <div
       class="animate-pulse p-4 rounded-md border-solid flex flex-col gap-2 loader border border-slate-30 my-0 mx-auto"
@@ -21,7 +21,7 @@
       <div class="h-5 bg-slate-100 rounded w-40 self-end"></div>
     </div>
   </div>
-  } @else if (!loading) {
+  } @else if (!loading()) {
   <div class="container pt-5">
     <div class="img__container grid">
       <img
@@ -33,5 +33,5 @@
   </div>
   }
 
-  <canvas #canvasEl width="450" height="200"></canvas>
+  <canvas #canvasEl width="450" height="200" ></canvas>
 </div>

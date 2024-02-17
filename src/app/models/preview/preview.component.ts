@@ -1,15 +1,14 @@
 import {
   Component,
   ElementRef,
-  OnDestroy,
   ViewChild,
+  inject,
   signal,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { radixDownload } from '@ng-icons/radix-icons';
 import { CanvasComponent } from '../canvas/canvas.component';
 import { TextService } from '../../services/text.service';
-import { Subscription } from 'rxjs';
 import { CommunicationService } from '../../services/communication.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
@@ -22,14 +21,13 @@ import { Router } from '@angular/router';
   styleUrl: './preview.component.scss',
   viewProviders: [provideIcons({ radixDownload })],
 })
-export class PreviewComponent implements OnDestroy {
+export class PreviewComponent {
   @ViewChild('canvasEl', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
 
   private ctx!: CanvasRenderingContext2D;
   private currentFontIndex: number = 0;
   private messageFromInput: any;
-  private subscription: Subscription;
 
   fonts = [
     'hwAnita',
@@ -50,8 +48,8 @@ export class PreviewComponent implements OnDestroy {
   ];
 
   data = signal('');
-
-  loading: boolean = false;
+  userId = signal('');
+  loading = signal<boolean>(false);
 
   text1: string = '';
   text2: string = '';
@@ -65,20 +63,15 @@ export class PreviewComponent implements OnDestroy {
   canvasDataURL: string = '';
   unit: string = 'px';
 
-  userId = signal('');
+  private communicationService = inject(CommunicationService);
+  private textService = inject(TextService);
+  private router = inject(Router);
+  private fireStorage = inject(AngularFireStorage);
 
-  constructor(
-    private communicationService: CommunicationService,
-    private textService: TextService,
-    private router: Router,
-
-    private fireStorage: AngularFireStorage
-  ) {
-    this.subscription = this.communicationService.message$.subscribe(
-      (message) => {
-        this.receiveMessageFromInput(message);
-      }
-    );
+  constructor() {
+    this.communicationService.message$.subscribe((message) => {
+      this.receiveMessageFromInput(message);
+    });
   }
 
   receiveMessageFromInput(message: any) {
@@ -110,11 +103,11 @@ export class PreviewComponent implements OnDestroy {
     this.loadFonts().then(() => {
       document.fonts.addEventListener('loadingdone', () => {
         this.changeFont(this.fonts[this.currentFontIndex]);
-        this.loading = false;
+        this.loading.set(false);
       });
 
       document.fonts.addEventListener('loading', () => {
-        this.loading = true;
+        this.loading.set(true);
       });
 
       document.fonts.addEventListener('error', (error) => {
@@ -140,7 +133,6 @@ export class PreviewComponent implements OnDestroy {
 
   changeFont(font: string) {
     this.currentFontIndex = this.fonts.indexOf(font);
-    // this.currentFontIndex = this.fonts.indexOf(font);
     this.textService.currentText.subscribe((newText) => {
       this.changeFontWithCurrentFont(newText);
     });
@@ -154,7 +146,7 @@ export class PreviewComponent implements OnDestroy {
     const canvasWidth = this.canvas.nativeElement.width;
     let canvasHeight = this.canvas.nativeElement.height;
     const lineHeight = 22;
-    const padding = 10; // Padding between text1 and text2
+    const padding = 10; // Padding from canvas border
 
     this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     this.ctx.fillStyle = 'white';
@@ -165,12 +157,12 @@ export class PreviewComponent implements OnDestroy {
 
     // For positioning
     let x = xOffset;
-    let y = lineHeight + 5;
+    let y = lineHeight + 5; // padding top from canvas border
 
     const text1 = this.text1;
     const text2 = this.text2;
 
-    const currentText = this.text1 || this.text2;
+    const currentText = text1 || text2;
     const words = currentText.split(' ');
 
     words.forEach((word, index) => {
@@ -217,6 +209,7 @@ export class PreviewComponent implements OnDestroy {
     const additionalTextWidth = this.ctx.measureText(text2).width;
     const additionalTextX = canvasWidth - additionalTextWidth - xOffset;
     // const additionalTextY = y + lineHeight + padding;
+
     // Add padding of 15px from the bottom for text2
     const additionalTextY = canvasHeight - 15;
 
@@ -231,76 +224,6 @@ export class PreviewComponent implements OnDestroy {
     this.canvasDataURL = canvas.toDataURL();
     // this.renderer.setStyle(canvas, 'visibility', 'hidden');
   }
-
-  // changeFontWithCurrentFont(newText: string) {
-  //   this.ctx.imageSmoothingEnabled = true;
-  //   this.ctx.font = `${this.fontSize1}${this.unit} ${this.fonts[this.currentFontIndex]}`;
-
-  //   const canvasWidth = this.canvas.nativeElement.width;
-  //   let canvasHeight = this.canvas.nativeElement.height;
-  //   const lineHeight = 22;
-  //   const paddingBetweenText = 10;
-  //   const paddingForText2 = 15;
-
-  //   this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  //   this.ctx.fillStyle = 'white';
-  //   this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-  //   const xOffset = paddingBetweenText;
-  //   let x = xOffset;
-  //   let y = lineHeight + 5;
-
-  //   const text1 = this.text1;
-  //   const text2 = this.text2;
-  //   const currentText = this.text1 || this.text2;
-  //   const words = currentText.split(' ');
-
-  //   words.forEach((word, index) => {
-  //     const wordWidth = this.ctx.measureText(word).width;
-
-  //     if (x + wordWidth > canvasWidth - xOffset) {
-  //       x = xOffset;
-  //       y += lineHeight;
-  //     }
-
-  //     if (y + lineHeight > canvasHeight) {
-  //       canvasHeight += lineHeight;
-  //       this.canvas.nativeElement.height = canvasHeight;
-  //     }
-
-  //     this.ctx.fillStyle = this.fontColor1;
-  //     this.ctx.fillText(word, x, y);
-
-  //     x += wordWidth + (index < words.length - 1 ? this.ctx.measureText(' ').width : 0);
-  //   });
-
-  //   // Draw the first text (text1) outside the loop
-  //   this.ctx.fillStyle = this.fontColor1;
-  //   this.ctx.fillText(text1, xOffset, lineHeight + 5);
-
-  //   // Update y position for the next text (text2)
-  //   y += lineHeight + paddingBetweenText;
-
-  //   // Calculate the new canvas height after adding padding for text2
-  //   canvasHeight = y + lineHeight + paddingForText2;
-
-  //   // Set the new canvas height
-  //   this.canvas.nativeElement.height = canvasHeight;
-
-  //   // Set position for the second text (text2)
-  //   const additionalTextWidth = this.ctx.measureText(text2).width;
-  //   const additionalTextX = canvasWidth - additionalTextWidth - xOffset;
-  //   const additionalTextY = canvasHeight - paddingForText2;
-
-  //   // Draw the second text (text2) with padding from the first text
-  //   this.ctx.fillStyle = this.fontColor2;
-  //   this.ctx.font = `${this.fontSize2}${this.unit} ${this.fonts[this.currentFontIndex]}`;
-  //   this.ctx.fillText(text2, additionalTextX, additionalTextY);
-
-  //   const canvas = this.canvas.nativeElement;
-  //   this.canvasDataURL = canvas.toDataURL();
-  //   this.renderer.setStyle(canvas, 'visibility', 'hidden');
-  // }
 
   nextFont() {
     this.currentFontIndex = (this.currentFontIndex + 1) % this.fonts.length;
@@ -319,7 +242,7 @@ export class PreviewComponent implements OnDestroy {
 
     const blob = await fetch(dataURL).then((res) => res.blob());
 
-    const url = await this.communicationService.uploadImage(blob);
+    const url = this.communicationService.uploadImage(blob);
 
     // returns the id of the image
     this.data.set(this.communicationService.getData());
@@ -335,7 +258,7 @@ export class PreviewComponent implements OnDestroy {
       // Convert data URL to Blob
       const blob = await fetch(dataURL).then((res) => res.blob());
 
-      const url = await this.communicationService.uploadImage(blob);
+      const url = this.communicationService.uploadImage(blob);
 
       // returns the id of the image
       this.data.set(this.communicationService.getData());
@@ -344,9 +267,5 @@ export class PreviewComponent implements OnDestroy {
     } catch (error) {
       console.error('An error occurred:', error);
     }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

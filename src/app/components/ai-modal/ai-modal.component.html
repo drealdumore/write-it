@@ -10,13 +10,13 @@
     <div class="content pt-4">
       <p>Can't think of a quote? We'll do the magic for you.</p>
       <div class="container">
-        <form class="pt-3 radio__form">
+        <form class="pt-3 radio__form" [formGroup]="selectForm">
           <label>
-            <input type="radio" name="radio" checked="" />
+            <input type="radio" formControlName="selectedType" value="quote" />
             <span class="border">Quote/Saying</span>
           </label>
           <label>
-            <input type="radio" name="radio" />
+            <input type="radio" formControlName="selectedType" value="story" />
             <span class="border">Short Letter</span>
           </label>
         </form>
@@ -28,7 +28,7 @@
         <form
           class="pb-2"
           [formGroup]="descriptionGroup"
-          (ngSubmit)="sendMessage()"
+          (ngSubmit)="generateText()"
         >
           <textarea
             formControlName="input"
@@ -37,7 +37,7 @@
           ></textarea>
           <div class="flex justify-end items-center">
             <button
-              (click)="sendMessage()"
+              (click)="generateText()"
               class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
             >
               <ng-icon name="radixMagicWand" strokeWidth="17px;"></ng-icon>
@@ -45,17 +45,6 @@
             </button>
           </div>
         </form>
-
-        <div *ngFor="let message of chatHistory">
-          {{ message }}
-        </div>
-
-        <div class="bg-black" *ngIf="result">
-          <pre>{{ result | json }}</pre>
-          <ul>
-            <li *ngFor="let choice of result.choices">{{ choice.text }}</li>
-          </ul>
-        </div>
       </div>
     </div>
   </div>

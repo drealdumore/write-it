@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^17.1.0",
     "@angular/platform-browser-dynamic": "^17.1.0",
     "@angular/router": "^17.1.0",
+    "@google/generative-ai": "^0.2.1",
     "@ng-icons/core": "^26.3.0",
     "@ng-icons/radix-icons": "^26.3.0",
     "@ngneat/hot-toast": "^6.1.0",
