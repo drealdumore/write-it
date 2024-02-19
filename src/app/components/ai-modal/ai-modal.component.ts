@@ -12,6 +12,7 @@ import {
 import { AiService } from '../../services/ai.service';
 import { CommonModule } from '@angular/common';
 import { debounceTime } from 'rxjs';
+import { TextService } from '../../services/text.service';
 @Component({
   selector: 'ai-modal',
   standalone: true,
@@ -25,15 +26,15 @@ import { debounceTime } from 'rxjs';
     }),
   ],
 })
-
 export class AiModalComponent implements OnInit {
   descriptionGroup!: FormGroup;
   selectForm!: FormGroup;
 
-  userInput = signal('');
+  userInput = signal('happy birthday');
 
   private modalService = inject(ModalService);
   private aiService = inject(AiService);
+  private textService = inject(TextService);
   private fb = inject(FormBuilder);
 
   ngOnInit() {
@@ -50,7 +51,6 @@ export class AiModalComponent implements OnInit {
     if (control) {
       control.valueChanges.pipe(debounceTime(500)).subscribe(() => {
         this.userInput.set(this.descriptionGroup.value.input);
-        console.log(this.userInput());
       });
     }
   }
@@ -63,7 +63,10 @@ export class AiModalComponent implements OnInit {
       this.userInput()
     );
 
-    console.log(generatedText)
+    this.modalService.closeModal();
+    // this.modalService.openResultModal();
+    this.textService.changeAiText(generatedText);
+
   }
 
   close() {

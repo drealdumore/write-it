@@ -7,6 +7,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AiModalComponent } from '../../components/ai-modal/ai-modal.component';
 import { CommonModule } from '@angular/common';
 import { ResultModalComponent } from '../../components/result-modal/result-modal.component';
+import { LoaderService } from '../../services/loader.service';
 
 @Component({
   selector: 'app-main',
@@ -25,14 +26,19 @@ import { ResultModalComponent } from '../../components/result-modal/result-modal
 })
 export class MainComponent {
   private modalService = inject(ModalService);
+  private loaderService = inject(LoaderService);
 
   modalSignal = toSignal(this.modalService.modalObservable);
+  resultSignal = toSignal(this.modalService.resultObservable);
 
   isAiModal: boolean = false;
   isResultModal: boolean = false;
 
+  ngOnInit(): void {
+    this.loaderService.closeloader();
+  }
+
   aiModalActive() {
     this.modalService.openModal();
-    // console.log('calling ai modal');
   }
 }

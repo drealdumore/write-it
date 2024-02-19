@@ -10,4 +10,181 @@
     </button>
   </div>
 
+  <div class="input__container flex justify-center flex-col gap-3">
+    <div
+      class="input bg-white border-solid border border-slate-30 rounded-md p-4"
+      [ngStyle]="{ height: !this.setting1 ? '11rem' : 'auto' }"
+    >
+      <form class="flex-col flex" [formGroup]="input1">
+        <label class="font-semibold pb-2">Line 1:</label>
+        <textarea
+          formControlName="input"
+          class="border-solid border border-slate-30 rounded-md pe-2 ps-2 h-20 resize-none"
+        ></textarea>
+      </form>
+
+      <button
+        #collapsibleButton
+        (click)="setting1Toggled()"
+        class="flex items-center justify-center pl-2 text-xs mb-1.5 gap-1 pt-2 font-medium text-black hover:bg-slate-200 hover:text-black setting"
+      >
+        <span>Show Advanced Settings</span>
+        @if(this.setting1) {
+        <ng-icon name="radixChevronUp" strokeWidth="17px;"></ng-icon>
+        } @else if (!this.setting1){
+        <ng-icon name="radixGear" strokeWidth="17px;"></ng-icon>
+        }
+      </button>
+
+      <div #collapsibleContent class="bg-slate-200 p-3 rounded-md content">
+        <div class="settings">
+          <form [formGroup]="fontSizeForm" class="flex flex-col gap-2 w-100">
+            <div class="setting_input flex flex-col gap-2">
+              <div class="main_setting flex items-center justify-normal gap-3">
+                <label class="font-medium text-sm">Font Size</label>
+                <input
+                  formControlName="fontSize"
+                  class="w-17 text-sm border-solid border border-1 border-slate-500 pl-2"
+                  type="number"
+                />
+              </div>
+
+              <div class="PB-range-slider-div">
+                <input
+                  [value]="fontSizeForm.get('fontSize')?.value"
+                  (input)="onRangeInput($event)"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  class="PB-range-slider"
+                  id="myRange"
+                />
+                <p class="PB-range-slidervalue">
+                  {{ fontSizeForm.get("fontSize")?.value }}px
+                </p>
+              </div>
+            </div>
+          </form>
+
+          <div class="setting_input flex flex-col gap-2">
+            <div class="main_setting flex items-center justify-normal gap-3">
+              <label class="font-medium text-sm">Font Color</label>
+              <input
+                [(ngModel)]="selectedColor"
+                class="w-17 text-sm border-solid border border-1 border-slate-500 pl-2"
+              />
+            </div>
+            <div>
+              <!-- <ngx-colors ngx-colors-trigger [(ngModel)]="selectedColor"></ngx-colors> -->
+              <span
+                class="ngx w-11 h-5 block cursor-pointer border-solid border border-slate-30"
+                ngx-colors-trigger
+                [(ngModel)]="selectedColor"
+                (change)="onColorChange($event)"
+                [style.backgroundColor]="selectedColor"
+              ></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="input bg-white border-solid border border-slate-30 rounded-md p-4"
+      [ngStyle]="{ height: !this.setting2 ? '11rem' : 'auto' }"
+    >
+      <form class="flex-col flex" [formGroup]="input2">
+        <label class="font-semibold pb-2">Line 2:</label>
+        <textarea
+          formControlName="input"
+          class="border-solid border border-slate-30 rounded-md pe-2 ps-2 h-20 resize-none"
+        ></textarea>
+      </form>
+
+      <button
+        #collapsibleButton2
+        (click)="setting2Toggled()"
+        class="flex items-center justify-center pl-2 text-xs mb-1.5 gap-1 pt-2 font-medium text-black hover:bg-slate-200 hover:text-black setting"
+      >
+        <span>Show Advanced Settings</span>
+        @if(this.setting2) {
+        <ng-icon name="radixChevronUp"></ng-icon>
+        } @else if (!this.setting2){
+        <ng-icon name="radixGear"></ng-icon>
+        }
+      </button>
+
+      <div #collapsibleContent2 class="bg-slate-200 p-3 rounded-md content">
+        <div class="settings">
+          <form [formGroup]="fontSizeForm2" class="flex flex-col gap-2 w-100">
+            <div class="setting_input flex flex-col gap-2">
+              <div class="main_setting flex items-center justify-normal gap-3">
+                <label class="font-medium text-sm">Font Size</label>
+                <input
+                  formControlName="fontSize"
+                  class="w-17 text-sm border-solid border border-1 border-slate-500 pl-2"
+                  type="number"
+                />
+              </div>
+
+              <div class="PB-range-slider-div">
+                <input
+                  [value]="fontSizeForm2.get('fontSize')?.value"
+                  (input)="onRangeInput2($event)"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  class="PB-range-slider"
+                  id="myRange"
+                />
+                <p class="PB-range-slidervalue">
+                  {{ fontSizeForm2.get("fontSize")?.value }}px
+                </p>
+              </div>
+            </div>
+          </form>
+
+          <div class="setting_input flex flex-col gap-2">
+            <div class="main_setting flex items-center justify-normal gap-3">
+              <label class="font-medium text-sm">Font Color</label>
+              <input
+                [(ngModel)]="selectedColor2"
+                class="w-17 text-sm border-solid border border-1 border-slate-500 pl-2"
+              />
+            </div>
+            <div>
+              <!-- <ngx-colors ngx-colors-trigger [(ngModel)]="selectedColor"></ngx-colors> -->
+              <span
+                class="ngx w-11 h-5 block cursor-pointer border-solid border border-slate-30"
+                ngx-colors-trigger
+                [(ngModel)]="selectedColor2"
+                (change)="onColorChange2($event)"
+                [style.backgroundColor]="selectedColor2"
+              ></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="templates pt-6">
+    <h2 class="font-semibold text-lg pb-1">Select a Font:</h2>
+    <div
+      class="templates__container flex flex-wrap gap-2 justify-between items-center"
+    >
+      @for(font of fonts; track font; let i = $index) {
+      <div
+        class="templates__container--template rounded-lg flex items-center justify-center"
+        (click)="fontSelected(i)"
+        [ngClass]="{ active__template: selectedFont === i }"
+      >
+        <img [src]="font.src" [alt]="font.alt" class="rounded-lg" />
+      </div>
+
+      }
+    </div>
+  </div>
 </div>

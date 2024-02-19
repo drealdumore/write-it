@@ -1,0 +1,45 @@
+<div class="wrapper">
+  <div class="container">
+    <div class="img__container grid">
+      @if(loading()) {
+
+      <div class="spinner center">
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+      </div>
+      } @else() {
+
+      <img
+        [src]="canvasDataURL"
+        class="rounded-md border-solid border border-slate-30 my-0 mx-auto"
+        alt="Generated Image"
+      />
+      }
+    </div>
+    <p class="py-2 text-xs">
+      Tip: If the quote doesn't fit the page - copy the content, close the modal
+      and use the editor.
+    </p>
+    <div class="flex justify-end items-center">
+      <button
+        (click)="uploadPhoto()"
+        class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
+      >
+        <ng-icon name="radixDownload" strokeWidth="17px;"></ng-icon>
+        <span class="text-sm font-normal">Download</span>
+      </button>
+    </div>
+  </div>
+
+  <canvas #canvas width="400" height="200"></canvas>
+</div>

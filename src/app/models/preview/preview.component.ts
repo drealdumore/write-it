@@ -12,6 +12,7 @@ import { TextService } from '../../services/text.service';
 import { CommunicationService } from '../../services/communication.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
+import { FontService } from '../../services/font.service';
 
 @Component({
   selector: 'preview',
@@ -65,8 +66,8 @@ export class PreviewComponent {
 
   private communicationService = inject(CommunicationService);
   private textService = inject(TextService);
+  private fontService = inject(FontService);
   private router = inject(Router);
-  private fireStorage = inject(AngularFireStorage);
 
   constructor() {
     this.communicationService.message$.subscribe((message) => {
@@ -116,7 +117,6 @@ export class PreviewComponent {
     });
 
     this.ctx = this.canvas.nativeElement.getContext('2d')!;
-    // this.changeFont(this.fonts[1]);
 
     // Subscribe to text changes for text1
     this.textService.currentText.subscribe((newText) => {
@@ -129,6 +129,18 @@ export class PreviewComponent {
       this.text2 = newText;
       this.changeFontWithCurrentFont(this.text2);
     });
+
+    
+
+    // this.fontService.loadFonts().subscribe(() => {
+    //   this.changeFont(this.fontService.getFontName(this.currentFontIndex));
+    //   this.loading.set(false);
+    // });
+
+    // this.fontService.preloadFonts().then(() => {
+    //   this.changeFont(this.fontService.getFontName(this.currentFontIndex));
+    //   this.loading.set(false);
+    // });
   }
 
   changeFont(font: string) {

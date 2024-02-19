@@ -15,7 +15,9 @@ export interface Message {
 @Injectable({
   providedIn: 'root',
 })
+
 export class CommunicationService {
+  
   private messageSource = new Subject<Message>();
   message$ = this.messageSource.asObservable();
 

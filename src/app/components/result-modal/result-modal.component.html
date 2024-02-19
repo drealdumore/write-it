@@ -15,7 +15,7 @@
     <div class="content pt-2">
       <div class="flex items-center justify-between px-1 pd-1">
         <div class="flex font-semibold pb-1 items-center">
-          <p class="text-xl">Generated Content</p>
+          <p class="text-lg">Generated Content &nbsp;</p>
           <ng-icon name="radixRocket" strokeWidth="17px;"></ng-icon>
         </div>
         <button
@@ -26,7 +26,7 @@
         >
           <span
             class="tooltip"
-            data-text-initial="Copy to clipboard"
+            data-text-initial="Copy"
             data-text-end="Copied!"
           ></span>
           <span>
@@ -76,29 +76,33 @@
       </div>
       <div class="container">
         <textarea
+          readonly
           placeholder="Add description"
           class="border-solid pt-1 w-full border border-slate-30 rounded-md pe-2 ps-2 h-20 resize-none"
-          [(ngModel)]="description"
           name="description"
+          [(ngModel)]="description"
         ></textarea>
+
         <div class="flex pt-2 justify-center items-center w-full">
           <div class="img__container">
-            <img class="rounded-md" src="/assets/template.png" alt="preview" />
+            <modal-canvas></modal-canvas>
           </div>
         </div>
+<!-- 
         <p class="py-2 text-xs">
           Tip: If the quote doesn't fit the page - copy the content, close the
           modal and use the editor.
-        </p>
+        </p> -->
       </div>
     </div>
-    <div class="flex justify-end items-center">
+
+    <!-- <div class="flex justify-end items-center">
       <button
         class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
       >
         <ng-icon name="radixDownload" strokeWidth="17px;"></ng-icon>
         <span class="text-sm font-normal">Download</span>
       </button>
-    </div>
+    </div> -->
   </div>
 </div>

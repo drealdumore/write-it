@@ -43,6 +43,8 @@ export class DownloadComponent implements OnInit {
           })
         );
     }
+
+    this.loaderService.closeloader();
   }
 
   downloadImage(path:string) {

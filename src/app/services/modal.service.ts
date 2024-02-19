@@ -6,8 +6,11 @@ import { toObservable } from '@angular/core/rxjs-interop';
 //   providedIn: 'root'
 // })
 export class ModalService {
-  modalSignal = signal<boolean>(true);
+  modalSignal = signal<boolean>(false);
+  resultModal = signal<boolean>(true);
+
   modalObservable = toObservable(this.modalSignal);
+  resultObservable = toObservable(this.resultModal);
   constructor() {}
 
   openModal() {
@@ -16,5 +19,13 @@ export class ModalService {
 
   closeModal() {
     this.modalSignal.set(false);
+  }
+
+  openResultModal() {
+    this.resultModal.set(true);
+  }
+
+  closeResultModal() {
+    this.resultModal.set(false);
   }
 }

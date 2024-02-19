@@ -26,7 +26,7 @@
         </p>
 
         <form
-          class="pb-2"
+          class="gap-1 flex flex-col"
           [formGroup]="descriptionGroup"
           (ngSubmit)="generateText()"
         >
@@ -37,8 +37,9 @@
           ></textarea>
           <div class="flex justify-end items-center">
             <button
+              [disabled]="!descriptionGroup.get('input')?.value"
               (click)="generateText()"
-              class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
+              class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1 disabled:opacity-75 disabled:cursor-not-allowed"
             >
               <ng-icon name="radixMagicWand" strokeWidth="17px;"></ng-icon>
               <span class="text-sm font-normal">Generate</span>

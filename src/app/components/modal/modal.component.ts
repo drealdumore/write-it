@@ -14,5 +14,7 @@ export class ModalComponent {
 
   close() {
     this.modalService.closeModal();
+    this.modalService.closeResultModal();
   }
 }
+

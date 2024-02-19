@@ -22,6 +22,11 @@ export class TextService {
   private text2Source = new BehaviorSubject<string>('- Saint');
   currentText2 = this.text2Source.asObservable();
 
+  private aiResponse = new BehaviorSubject<string>(
+    ' "Love is not a passion but a deep, abiding affection. It is not a momentary excitement, but a quiet and enduring devotion." - Helen Keller'
+  );
+  aiResponseText = this.aiResponse.asObservable();
+
   changeText(newText: string) {
     // this.textSource.set(newText);
     this.textSource.next(newText);
@@ -30,5 +35,9 @@ export class TextService {
   changeText2(newText: string) {
     // this.text2Source.set(newText);
     this.text2Source.next(newText);
+  }
+
+  changeAiText(newText: string) {
+    this.aiResponse.next(newText);
   }
 }
