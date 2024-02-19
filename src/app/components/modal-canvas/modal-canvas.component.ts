@@ -10,6 +10,7 @@ import { CommunicationService } from '../../services/communication.service';
 import { TextService } from '../../services/text.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { radixDownload } from '@ng-icons/radix-icons';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'modal-canvas',
@@ -39,6 +40,7 @@ export class ModalCanvasComponent {
   private communicationService = inject(CommunicationService);
   private textService = inject(TextService);
   private router = inject(Router);
+  private http = inject(HttpClient);
 
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d')!;
@@ -46,15 +48,19 @@ export class ModalCanvasComponent {
     // Subscribe to text changes for text1
     this.textService.aiResponseText.subscribe((newText) => {
       this.text = newText;
-      console.log(this.text);
       this.drawCanvas();
     });
-
   }
 
   drawCanvas() {
     if (this.ctx) {
       // Set basic text rendering properties
+
+      const scaleFactor = 2;
+      this.canvas.nativeElement.width *= scaleFactor;
+      this.canvas.nativeElement.height *= scaleFactor;
+      this.ctx.scale(scaleFactor, scaleFactor);
+
       this.ctx.font = `40px 'hwBlaire'`;
 
       // Clear the canvas before drawing
@@ -100,9 +106,43 @@ export class ModalCanvasComponent {
       }
 
       const canvas = this.canvas.nativeElement;
-      this.canvasDataURL = canvas.toDataURL('image/png', 100.0);
+      this.canvasDataURL = canvas.toDataURL('image/png', 1.0);
       this.loading.set(false);
       // this.canvasDataURL = canvas.toDataURL();
+    }
+  }
+
+  // downloadImage() {
+  //   this.http.post('/download-image', { imageUrl: 'https://firebasestorage.googleapis.com/v0/b/write-it-8f3a4.appspot.com/o/images%2Fwrite-it_fLTFcbs1.png?alt=media&token=8143d7de-b2cf-4297-b397-93df996c16ee' })
+  //     .subscribe(response => {
+  //       const blob = new Blob([response],{ type: 'image/png' });
+  //       const link = document.createElement('a');
+  //       link.href = URL.createObjectURL(blob);
+  //       link.download = 'write-it_fLTFcbs1.png';
+  //       link.click();
+  //     });
+  // }
+  
+
+  async uploadPhoto() {
+    try {
+      const canvasElement = this.canvas.nativeElement;
+
+      // Convert canvas to data URL
+      // const dataURL = canvasElement.toDataURL('image/png');
+      const dataURL = canvasElement.toDataURL('image/png', 1.0);
+
+      // Convert data URL to Blob
+      const blob = await fetch(dataURL).then((res) => res.blob());
+
+      const url = this.communicationService.uploadImage(blob);
+
+      // returns the id of the image
+      this.data.set(this.communicationService.getData());
+
+      this.router.navigate([`/download/${this.data()}`]);
+    } catch (error) {
+      console.error('An error occurred:', error);
     }
   }
 
@@ -122,26 +162,5 @@ export class ModalCanvasComponent {
 
     // returns the id of the image
     this.data.set(this.communicationService.getData());
-  }
-
-  async uploadPhoto() {
-    try {
-      const canvasElement = this.canvas.nativeElement;
-
-      // Convert canvas to data URL
-      const dataURL = canvasElement.toDataURL('image/png');
-
-      // Convert data URL to Blob
-      const blob = await fetch(dataURL).then((res) => res.blob());
-
-      const url = this.communicationService.uploadImage(blob);
-
-      // returns the id of the image
-      this.data.set(this.communicationService.getData());
-
-      this.router.navigate([`/download/${this.data()}`]);
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
   }
 }

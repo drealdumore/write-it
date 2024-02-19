@@ -19,6 +19,7 @@ import { TextService } from '../../services/text.service';
   imports: [NgIconComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './ai-modal.component.html',
   styleUrl: './ai-modal.component.scss',
+  // providers: [ModalService],
   viewProviders: [
     provideIcons({
       radixMagicWand,
@@ -31,6 +32,7 @@ export class AiModalComponent implements OnInit {
   selectForm!: FormGroup;
 
   userInput = signal('happy birthday');
+  loading = signal(false);
 
   private modalService = inject(ModalService);
   private aiService = inject(AiService);
@@ -56,16 +58,19 @@ export class AiModalComponent implements OnInit {
   }
 
   async generateText() {
+    this.loading.set(true)
     const selectedType = this.selectForm.get('selectedType')?.value;
 
     const generatedText = await this.aiService.generateText(
       selectedType,
       this.userInput()
     );
+    if (generatedText) {
+      this.textService.changeAiText(generatedText);
+      this.modalService.closeModal();
+      this.modalService.openResultModal();
+    }
 
-    this.modalService.closeModal();
-    // this.modalService.openResultModal();
-    this.textService.changeAiText(generatedText);
 
   }
 

@@ -57,9 +57,9 @@ export class PreviewComponent {
   imgLink: string = '';
 
   fontSize1: number = 0;
-  fontColor1: string = '#3540c0';
+  fontColor1: any;
   fontSize2: number = 0;
-  fontColor2: string = '#3540c0';
+  fontColor2: any;
 
   canvasDataURL: string = '';
   unit: string = 'px';
@@ -93,7 +93,7 @@ export class PreviewComponent {
   loadFonts() {
     const fontPromises = this.fonts.map((font) => {
       const fontFace = `url(./assets/fonts/${font}.woff2) format('woff2'), url(./assets/fonts/${font}.woff) format('woff')`;
-      document.fonts.load(fontFace);
+      // document.fonts.load(fontFace);
       return fontFace;
     });
 
@@ -129,8 +129,6 @@ export class PreviewComponent {
       this.text2 = newText;
       this.changeFontWithCurrentFont(this.text2);
     });
-
-    
 
     // this.fontService.loadFonts().subscribe(() => {
     //   this.changeFont(this.fontService.getFontName(this.currentFontIndex));

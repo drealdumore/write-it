@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -170,9 +169,7 @@ export class InputComponent implements OnInit {
   fonts: FontImageInterface[] = fontImage;
 
   fontSize1: number = 0;
-  fontColor1: any;
   fontSize2: number = 0;
-  fontColor2: any;
   selectedFont: number = 2;
 
   setting1: boolean = false;
@@ -193,12 +190,22 @@ export class InputComponent implements OnInit {
   selectedColor: string = '#3540c0';
   selectedColor2: string = '#3540c0';
 
+  aiBtnClicked(): void {
+    this.aiClicked.emit();
+  }
+
   private textService = inject(TextService);
   private communicationService = inject(CommunicationService);
   private fb = inject(FormBuilder);
   private renderer = inject(Renderer2);
 
   ngOnInit(): void {
+    // console.log(this.selectedColor);
+    // console.log(this.selectedColor2);
+
+    // this.selectedColor = '#3540c0';
+    // this.selectedColor2 = '#3540c0';
+
     // text input forms
     this.input1 = this.fb.group({
       input: ['this world is so quick to judge & too late to understand'],
@@ -286,16 +293,11 @@ export class InputComponent implements OnInit {
     this.sendMessageToCanvas();
   }
 
-  aiBtnClicked(): void {
-    this.aiClicked.emit();
-  }
-
   fontSelected(index: number): void {
     // Check if the index is valid
     if (index >= 0 && index < this.fonts.length) {
       // Set the selectedFont based on the index
       this.selectedFont = index;
-      // this.communicationService.sendFontSelected(this.selectedFont);
       this.sendMessageToCanvas();
     }
   }
