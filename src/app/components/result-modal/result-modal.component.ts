@@ -14,6 +14,7 @@ import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 import { ModalService } from '../../services/modal.service';
 import { TextService } from '../../services/text.service';
 import { ModalCanvasComponent } from '../modal-canvas/modal-canvas.component';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'result-modal',
@@ -32,7 +33,6 @@ import { ModalCanvasComponent } from '../modal-canvas/modal-canvas.component';
       radixMagicWand,
       radixCross1,
       radixChevronLeft,
-      radixRocket,
       radixDownload,
       radixCopy,
     }),
@@ -42,6 +42,7 @@ export class ResultModalComponent implements OnInit {
   private modalService = inject(ModalService);
   private clipboardService = inject(ClipboardService);
   private textService = inject(TextService);
+  private toastService = inject(HotToastService);
 
   description: string = '';
 
@@ -57,5 +58,6 @@ export class ResultModalComponent implements OnInit {
 
   copyToClipboard() {
     this.clipboardService.copyFromContent(this.description);
+    this.toastService.show('Copied text to Clipboard');
   }
 }

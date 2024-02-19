@@ -26,13 +26,15 @@
       />
       }
     </div>
-    <p class="py-2 text-xs">
+    <!-- (click)="downloadCanvas()" -->
+    <p class="py-2 text-xs"  >
       Tip: If the quote doesn't fit the page - copy the content, close the modal
       and use the editor.
     </p>
+    <!-- (click)="uploadPhoto()" -->
     <div class="flex justify-end items-center">
       <button
-        (click)="uploadPhoto()"
+        (click)="downloadCanvas()"
         class="w-32 bg-black text-slate-50 hover:bg-stone-900 hover:text-slate-50 flex items-center justify-center gap-1"
       >
         <ng-icon name="radixDownload" strokeWidth="17px;"></ng-icon>

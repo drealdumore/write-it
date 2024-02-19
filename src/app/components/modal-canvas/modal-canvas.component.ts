@@ -44,27 +44,34 @@ export class ModalCanvasComponent {
 
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d')!;
+    
 
-    // Subscribe to text changes for text1
+    // Subscribe to text changes for text
     this.textService.aiResponseText.subscribe((newText) => {
       this.text = newText;
       this.drawCanvas();
     });
   }
+  
 
   drawCanvas() {
     if (this.ctx) {
       // Set basic text rendering properties
 
-      const scaleFactor = 2;
-      this.canvas.nativeElement.width *= scaleFactor;
-      this.canvas.nativeElement.height *= scaleFactor;
-      this.ctx.scale(scaleFactor, scaleFactor);
+      // To increase scale and make canvas bigger and text smaller
+      // const scaleFactor = 2;
+      // this.canvas.nativeElement.width *= scaleFactor;
+      // this.canvas.nativeElement.height *= scaleFactor;
+      // this.ctx.scale(scaleFactor, scaleFactor);
 
-      this.ctx.font = `40px 'hwBlaire'`;
-
+      // Set white background color
+      this.ctx.fillStyle = 'white';
       // Clear the canvas before drawing
-      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
+      // Set black text color
+      this.ctx.fillStyle = 'black';
+      this.ctx.font = `40px 'hwBlaire'`;
 
       // Calculate text width and positioning with padding
       const textWidth = this.ctx.measureText(this.text).width;
@@ -111,18 +118,6 @@ export class ModalCanvasComponent {
       // this.canvasDataURL = canvas.toDataURL();
     }
   }
-
-  // downloadImage() {
-  //   this.http.post('/download-image', { imageUrl: 'https://firebasestorage.googleapis.com/v0/b/write-it-8f3a4.appspot.com/o/images%2Fwrite-it_fLTFcbs1.png?alt=media&token=8143d7de-b2cf-4297-b397-93df996c16ee' })
-  //     .subscribe(response => {
-  //       const blob = new Blob([response],{ type: 'image/png' });
-  //       const link = document.createElement('a');
-  //       link.href = URL.createObjectURL(blob);
-  //       link.download = 'write-it_fLTFcbs1.png';
-  //       link.click();
-  //     });
-  // }
-  
 
   async uploadPhoto() {
     try {

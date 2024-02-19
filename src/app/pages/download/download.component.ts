@@ -1,6 +1,15 @@
-import { Component, Input, OnInit, inject, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommunicationService } from '../../services/communication.service';
-import { EMPTY, Observable, catchError, tap } from 'rxjs';
+import { EMPTY, Observable, catchError, of, switchMap, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
@@ -33,37 +42,45 @@ export class DownloadComponent implements OnInit {
     this.loaderService.openloader();
 
     if (this.id) {
-      this.communicationService.checkImageExistence(this.id).subscribe(
-        (exists) => {
-          if (exists) {
-            this.imageData$ = this.communicationService
-              .getImageAndUrlById(this.id)
-              .pipe(
-                tap((data) => {
-                  this.loaderService.closeloader();
-                }),
-                catchError(() => {
-                  return EMPTY;
-                })
-              );
-          } else {
-            console.log('Image does not exist!');
-            this.loaderService.closeloader();
-            this.notExist.set(true);
-          }
-        },
-        (error) => {
-          console.error('Error checking image existence:', error);
-        }
-      );
+      this.communicationService
+        .checkImageExistence(this.id)
+        .pipe(
+          switchMap((exists) => {
+            if (exists) {
+              return this.communicationService.getImageAndUrlById(this.id);
+            } else {
+              this.handleImageDoesNotExist();
+              return EMPTY;
+            }
+          }),
+          tap(() => this.handleLoaderClose()),
+          catchError((error) => {
+            console.error('Error checking image existence:', error);
+            return EMPTY;
+          })
+        )
+        .subscribe((data) => {
+          this.imageData$ = of(data);
+        });
     }
+  }
+
+  private handleImageDoesNotExist(): void {
+    console.log('Image does not exist!');
+    this.notExist.set(true);
+    this.handleLoaderClose();
+  }
+
+  private handleLoaderClose(): void {
+    this.loaderService.closeloader();
   }
 
   downloadImage(path: string) {
     console.log(path);
     this.communicationService.getImage(path).subscribe(
       (imageBlob: Blob) => {
-        saveAs(imageBlob, 'write-it.png');
+        // saveAs(imageBlob, 'write-it.png');
+        saveAs(imageBlob, 'image.png');
       },
       (error) => {
         console.error('Error downloading image:', error);

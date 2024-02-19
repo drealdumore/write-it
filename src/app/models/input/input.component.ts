@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -111,6 +112,7 @@ const fontImage: FontImageInterface[] = [
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
   viewProviders: [provideIcons({ radixMagicWand, radixGear, radixChevronUp })],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputComponent implements OnInit {
   @ViewChild('collapsibleButton') collapsibleButton!: ElementRef;
@@ -166,27 +168,21 @@ export class InputComponent implements OnInit {
   }
 
   @Output() aiClicked = new EventEmitter();
-  fonts: FontImageInterface[] = fontImage;
 
+  fonts: FontImageInterface[] = fontImage;
   fontSize1: number = 0;
   fontSize2: number = 0;
   selectedFont: number = 2;
-
   setting1: boolean = false;
   setting2: boolean = false;
-
   inputText: string = '';
   selectedBackgroundColor: string = '';
-
   ctrl: any;
   ctrl2: any;
-
   input1!: FormGroup;
   input2!: FormGroup;
-
   fontSizeForm!: FormGroup;
   fontSizeForm2!: FormGroup;
-
   selectedColor: string = '#3540c0';
   selectedColor2: string = '#3540c0';
 
@@ -199,13 +195,12 @@ export class InputComponent implements OnInit {
   private fb = inject(FormBuilder);
   private renderer = inject(Renderer2);
 
+  constructor() {
+    this.selectedColor = '#3540c0';
+    this.selectedColor2 = '#3540c0';
+  }
+
   ngOnInit(): void {
-    // console.log(this.selectedColor);
-    // console.log(this.selectedColor2);
-
-    // this.selectedColor = '#3540c0';
-    // this.selectedColor2 = '#3540c0';
-
     // text input forms
     this.input1 = this.fb.group({
       input: ['this world is so quick to judge & too late to understand'],

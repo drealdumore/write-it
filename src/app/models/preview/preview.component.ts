@@ -263,7 +263,8 @@ export class PreviewComponent {
       const canvasElement = this.canvas.nativeElement;
 
       // Convert canvas to data URL
-      const dataURL = canvasElement.toDataURL('image/png');
+      // const dataURL = canvasElement.toDataURL('image/png');
+      const dataURL = canvasElement.toDataURL('image/png', 1.0);
 
       // Convert data URL to Blob
       const blob = await fetch(dataURL).then((res) => res.blob());

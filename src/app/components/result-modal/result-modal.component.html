@@ -15,8 +15,7 @@
     <div class="content pt-2">
       <div class="flex items-center justify-between px-1 pd-1">
         <div class="flex font-semibold pb-1 items-center">
-          <p class="text-lg">Generated Content &nbsp;</p>
-          <ng-icon name="radixRocket" strokeWidth="17px;"></ng-icon>
+          <p class="text-lg">Generated Content</p>
         </div>
         <button
           [ngStyle]="{ display: description ? 'block' : 'none' }"
@@ -24,11 +23,12 @@
           #content
           (click)="copyToClipboard()"
         >
-          <span
+          <!-- <span
             class="tooltip"
             data-text-initial="Copy"
             data-text-end="Copied!"
-          ></span>
+          ></span> -->
+
           <span>
             <svg
               class="clipboard"

@@ -31,7 +31,7 @@ export class AiModalComponent implements OnInit {
   descriptionGroup!: FormGroup;
   selectForm!: FormGroup;
 
-  userInput = signal('happy birthday');
+  userInput = signal('');
   loading = signal(false);
 
   private modalService = inject(ModalService);
