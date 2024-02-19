@@ -2,7 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Observable, Subject, finalize, from, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  catchError,
+  finalize,
+  from,
+  of,
+  switchMap,
+} from 'rxjs';
 
 export interface Message {
   fontSize1: number;
@@ -15,9 +23,7 @@ export interface Message {
 @Injectable({
   providedIn: 'root',
 })
-
 export class CommunicationService {
-  
   private messageSource = new Subject<Message>();
   message$ = this.messageSource.asObservable();
 
@@ -68,6 +74,33 @@ export class CommunicationService {
         })
       )
       .subscribe();
+  }
+
+  checkImageExistence(id: string): Observable<boolean> {
+    const imagePath = `images/write-it_${id}.png`;
+
+    return this.realtimeDatabase
+      .object('imagePaths/' + id)
+      .valueChanges()
+      .pipe(
+        switchMap((data) => {
+          if (data) {
+            // Check if the image exists in storage
+            return this.fireStorage
+              .ref(imagePath)
+              .getDownloadURL()
+              .pipe(
+                // If the image exists, return true
+                switchMap(() => of(true)),
+                // If there is an error (image not found), return false
+                catchError(() => of(false))
+              );
+          } else {
+            // If the document with the given ID is not found, return false
+            return of(false);
+          }
+        })
+      );
   }
 
   getImageUrl(imagePath: string): Observable<any> {
@@ -129,7 +162,6 @@ export class CommunicationService {
     return randomId;
   }
 
-
   getImage(path: string): Observable<Blob> {
     const imageRef = this.fireStorage.ref(path);
 
@@ -141,7 +173,4 @@ export class CommunicationService {
     );
   }
 
-  // getImage(url: string): Observable<Blob> {
-  //   return this.http.get(url, { responseType: 'blob' });
-  // }
 }

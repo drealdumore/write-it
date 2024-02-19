@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { CommunicationService } from '../../services/communication.service';
 import { EMPTY, Observable, catchError, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -25,7 +25,7 @@ export class DownloadComponent implements OnInit {
   private clipboardService = inject(ClipboardService);
 
   imageData$: Observable<{ url: string; path: string }> | undefined;
-
+  notExist = signal(false);
   @Input() id = '';
 
   ngOnInit() {
@@ -33,17 +33,29 @@ export class DownloadComponent implements OnInit {
     this.loaderService.openloader();
 
     if (this.id) {
-      this.imageData$ = this.communicationService
-        .getImageAndUrlById(this.id)
-        .pipe(
-          tap((data) => {
-            console.log(data);
+      this.communicationService.checkImageExistence(this.id).subscribe(
+        (exists) => {
+          if (exists) {
+            this.imageData$ = this.communicationService
+              .getImageAndUrlById(this.id)
+              .pipe(
+                tap((data) => {
+                  this.loaderService.closeloader();
+                }),
+                catchError(() => {
+                  return EMPTY;
+                })
+              );
+          } else {
+            console.log('Image does not exist!');
             this.loaderService.closeloader();
-          }),
-          catchError(() => {
-            return EMPTY;
-          })
-        );
+            this.notExist.set(true);
+          }
+        },
+        (error) => {
+          console.error('Error checking image existence:', error);
+        }
+      );
     }
   }
 
@@ -64,7 +76,4 @@ export class DownloadComponent implements OnInit {
     this.clipboardService.copyFromContent(pageUrl);
     this.toastService.show('Copied link to Clipboard');
   }
-
-  // later implement a route guard to search database if id exist, if id{
-  // display page; else route to 404 or display error}
 }
