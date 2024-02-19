@@ -1,5 +1,14 @@
 @import url('./_font.scss');
 
+@font-face {
+  font-family: "hwBlaire";
+  src: url("/assets/fonts/hwBlaire-Regular.woff2") format("woff2"),
+       url("/assets/fonts/hwBlaire-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 canvas {
   visibility: hidden;
   width: 21rem;

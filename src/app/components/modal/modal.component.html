@@ -1,5 +1,5 @@
 <div class="container w-full" (click)="close()">
-  <div (click)="$event.stopPropagation()">
+  <div (click)="$event.stopPropagation()" id="contain">
     <ng-content></ng-content>
   </div>
 </div>

@@ -6,7 +6,6 @@ import {
   radixMagicWand,
   radixCross1,
   radixChevronLeft,
-  radixRocket,
   radixDownload,
   radixCopy,
 } from '@ng-icons/radix-icons';
@@ -53,6 +52,11 @@ export class ResultModalComponent implements OnInit {
   }
 
   close() {
+    this.modalService.closeResultModal();
+  }
+
+  open() {
+    this.modalService.openModal();
     this.modalService.closeResultModal();
   }
 

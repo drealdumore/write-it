@@ -21,3 +21,10 @@
   z-index: 20;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+  #contain {
+    width: 21rem;
+    font-size: 14px;
+  }
+}
