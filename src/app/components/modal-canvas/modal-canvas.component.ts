@@ -5,13 +5,11 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { CommunicationService } from '../../services/communication.service';
 import { TextService } from '../../services/text.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { radixDownload } from '@ng-icons/radix-icons';
-import { FontService } from '../../services/font.service';
 
 @Component({
   selector: 'modal-canvas',
@@ -57,7 +55,7 @@ export class ModalCanvasComponent {
   drawCanvas() {
     if (this.ctx) {
       // Set basic text rendering properties
-      this.ctx.font = `20px 'hwBlaire'`;
+      this.ctx.font = `40px 'hwBlaire'`;
 
       // Clear the canvas before drawing
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);

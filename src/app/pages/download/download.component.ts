@@ -23,7 +23,6 @@ export class DownloadComponent implements OnInit {
   private communicationService = inject(CommunicationService);
   private titleService = inject(Title);
   private clipboardService = inject(ClipboardService);
-  private http = inject(HttpClient);
 
   imageData$: Observable<{ url: string; path: string }> | undefined;
 
@@ -37,18 +36,19 @@ export class DownloadComponent implements OnInit {
       this.imageData$ = this.communicationService
         .getImageAndUrlById(this.id)
         .pipe(
-          tap((data) => console.log(data)),
+          tap((data) => {
+            console.log(data);
+            this.loaderService.closeloader();
+          }),
           catchError(() => {
             return EMPTY;
           })
         );
     }
-
-    this.loaderService.closeloader();
   }
 
-  downloadImage(path:string) {
-    console.log(path)
+  downloadImage(path: string) {
+    console.log(path);
     this.communicationService.getImage(path).subscribe(
       (imageBlob: Blob) => {
         saveAs(imageBlob, 'write-it.png');
@@ -59,38 +59,12 @@ export class DownloadComponent implements OnInit {
     );
   }
 
-  // downloadImage(imageUrl: string): void {
-  //   // const link = document.createElement('a');
-  //   // link.href = imageUrl;
-  //   // link.download = `write-it.png`;
-  //   // document.body.appendChild(link);
-  //   // link.click();
-  //   // document.body.removeChild(link);
-  //   saveAs(imageUrl, 'write-it.jpg')
-  // }
-
-  // downloadImage(imageUrl: string): void {
-  //   saveAs(imageUrl, 'write-it.jpg');
-  // }
-
-
-  // returns cors error
-  // downloadImage(imageUrl: string): void {
-  //   console.log(imageUrl);
-
-  //   this.http.get(imageUrl, { responseType: 'blob' }).subscribe(
-  //     (blob) => {
-  //       saveAs(blob, 'write-it.png');
-  //     },
-  //     (error) => {
-  //       console.error('Error downloading image:', error);
-  //     }
-  //   );
-  // }
-
   copyPageUrl(): void {
     const pageUrl = window.location.href;
     this.clipboardService.copyFromContent(pageUrl);
     this.toastService.show('Copied link to Clipboard');
   }
+
+  // later implement a route guard to search database if id exist, if id{
+  // display page; else route to 404 or display error}
 }

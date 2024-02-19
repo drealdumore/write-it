@@ -129,16 +129,6 @@ export class CommunicationService {
     return randomId;
   }
 
-  // getImage(path: string): Observable<Blob> {
-  //   const imageRef = this.fireStorage.ref(path);
-
-  //   return imageRef.getDownloadURL().pipe(
-  //     // Fetch image as Blob
-  //     finalize(() => {
-  //       imageRef.getDownloadURL().toPromise().then(console.log);
-  //     })
-  //   );
-  // }
 
   getImage(path: string): Observable<Blob> {
     const imageRef = this.fireStorage.ref(path);

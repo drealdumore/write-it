@@ -2,16 +2,12 @@ import { Injectable, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable()
-// @Injectable({
-//   providedIn: 'root'
-// })
 export class ModalService {
   modalSignal = signal<boolean>(false);
-  resultModal = signal<boolean>(true);
+  resultModal = signal<boolean>(false);
 
   modalObservable = toObservable(this.modalSignal);
   resultObservable = toObservable(this.resultModal);
-  constructor() {}
 
   openModal() {
     this.modalSignal.set(true);

@@ -57,9 +57,9 @@ export class PreviewComponent {
   imgLink: string = '';
 
   fontSize1: number = 0;
-  fontColor1: any;
+  fontColor1: string = '#3540c0';
   fontSize2: number = 0;
-  fontColor2: any;
+  fontColor2: string = '#3540c0';
 
   canvasDataURL: string = '';
   unit: string = 'px';
