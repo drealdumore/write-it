@@ -279,4 +279,92 @@ export class PreviewComponent {
       console.error('An error occurred:', error);
     }
   }
+
+  // Makes canvs background yellow and text to a little brown
+  // changeFontWithCurrentFont(newText: string) {
+  //   this.ctx.font = `${this.fontSize1}${this.unit} ${
+  //     this.fonts[this.currentFontIndex]
+  //   }`;
+
+  //   const canvasWidth = this.canvas.nativeElement.width;
+  //   let canvasHeight = this.canvas.nativeElement.height;
+  //   const lineHeight = 22;
+  //   const padding = 10; // Padding from canvas border
+
+  //   this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+  //   this.ctx.fillStyle = '#f8e837';
+  //   this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+  //   // Calculate equal padding on both sides
+  //   const xOffset = padding;
+
+  //   // For positioning
+  //   let x = xOffset;
+  //   let y = lineHeight + 5; // padding top from canvas border
+
+  //   const text1 = this.text1;
+  //   const text2 = this.text2;
+
+  //   const currentText = text1 || text2;
+  //   const words = currentText.split(' ');
+
+  //   words.forEach((word, index) => {
+  //     const wordWidth = this.ctx.measureText(word).width;
+
+  //     // Check if the word exceeds the available width
+  //     if (x + wordWidth > canvasWidth - xOffset) {
+  //       // Move to the next line
+  //       x = xOffset;
+  //       y += lineHeight;
+  //     }
+
+  //     // Check if the text exceeds the current canvas height
+  //     if (y + lineHeight > canvasHeight) {
+  //       // Increase the canvas height
+  //       canvasHeight += lineHeight;
+  //       this.canvas.nativeElement.height = canvasHeight;
+  //       // Update the context after increasing the canvas height
+  //       // this.ctx = this.canvas.nativeElement.getContext('2d')!;
+  //     }
+
+  //     // Draw the word
+  //     this.ctx.fillStyle = '#3b3000';
+  //     // this.ctx.fillStyle = this.fontColor1;
+  //     this.ctx.fillText(word, x, y);
+
+  //     // Update the x position for the next word
+  //     x +=
+  //       wordWidth +
+  //       (index < words.length - 1 ? this.ctx.measureText(' ').width : 0);
+  //   });
+
+  //   // Set position for the additional text from the second observable
+  //   // const additionalTextWidth = this.ctx.measureText(text2).width;
+  //   // const additionalTextX = canvasWidth - additionalTextWidth - xOffset;
+  //   // const additionalTextY = y + lineHeight + padding; // Place it below the first text with padding
+
+  //   // // Draw the additional text from the second observable with padding from the first text
+  //   // this.ctx.fillStyle = this.fontColor2;
+  //   // this.ctx.font = `${this.fontSize2}${this.unit} ${
+  //   //   this.fonts[this.currentFontIndex]
+  //   // }`;
+  //   // this.ctx.fillText(text2, additionalTextX, additionalTextY);
+
+  //   const additionalTextWidth = this.ctx.measureText(text2).width;
+  //   const additionalTextX = canvasWidth - additionalTextWidth - xOffset;
+  //   // const additionalTextY = y + lineHeight + padding;
+
+  //   // Add padding of 15px from the bottom for text2
+  //   const additionalTextY = canvasHeight - 15;
+
+  //   // Draw the additional text from the second observable with padding from the first text
+  //   this.ctx.fillStyle = '#3b3000';
+  //   this.ctx.font = `${this.fontSize2}${this.unit} ${
+  //     this.fonts[this.currentFontIndex]
+  //   }`;
+  //   this.ctx.fillText(text2, additionalTextX, additionalTextY);
+
+  //   const canvas = this.canvas.nativeElement;
+  //   this.canvasDataURL = canvas.toDataURL();
+  // }
 }
