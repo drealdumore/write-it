@@ -21,7 +21,9 @@ import { inject } from '@vercel/analytics';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  constructor(private loaderService: LoaderService) {}
+  constructor(private loaderService: LoaderService) {
+    inject();
+  }
   // private loaderService = inject(LoaderService);
 
   loaderSignal = this.loaderService.loaderSignal;
